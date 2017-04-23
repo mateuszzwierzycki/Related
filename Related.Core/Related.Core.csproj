@@ -46,7 +46,7 @@
     <Compile Include="Edges\GraphEdgeList.cs" />
     <Compile Include="Edges\GraphVertexList.cs" />
     <Compile Include="Graphs\DirectedGraph.cs" />
-    <Compile Include="Graphs\DirectedNode.cs" />
+    <Compile Include="Graphs\NestedGraph.cs" />
     <Compile Include="Graphs\UndirectedGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

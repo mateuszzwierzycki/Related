@@ -9,21 +9,21 @@ namespace Related.Graphs {
     ///  A nested class representing directed graphs. Each node stores connectivity information on parents and children.
     /// </summary>
     [Serializable]
-    public class DirectedNode {
+    public class NestedGraph {
 
         int _id = 0;
         double _value = 0;
-        List<DirectedNode> _parent = new List<DirectedNode>();
-        List<DirectedNode> _children = new List<DirectedNode>();
+        List<NestedGraph> _parent = new List<NestedGraph>();
+        List<NestedGraph> _children = new List<NestedGraph>();
 
         public int ID { get => _id; set => _id = value; }
         public double Value { get => _value; set => _value = value; }
-        public List<DirectedNode> Parents { get => _parent; set => _parent = value; }
-        public List<DirectedNode> Children { get => _children; set => _children = value; }
+        public List<NestedGraph> Parents { get => _parent; set => _parent = value; }
+        public List<NestedGraph> Children { get => _children; set => _children = value; }
 
-        public DirectedNode() { }
+        public NestedGraph() { }
 
-        public DirectedNode(int ID = 0, double Value = 0) {
+        public NestedGraph(int ID = 0, double Value = 0) {
             this.ID = this.ID;
             this.Value = Value;
         }
@@ -40,13 +40,13 @@ namespace Related.Graphs {
         /// <returns></returns>
         public bool IsLeaf() { return (Children.Count == 0); }
 
-        public List<DirectedNode]> GetLeafs() {
-            List<DirectedNode> nl = new List<DirectedNode>();
+        public List<NestedGraph]> GetLeafs() {
+            List<NestedGraph> nl = new List<NestedGraph>();
             GetLeafNodes(ref nl);
             return nl;
         }
 
-        private void GetLeafNodes(ref List<DirectedNode> Nodes) {
+        private void GetLeafNodes(ref List<NestedGraph> Nodes) {
             if (this.IsLeaf()) {
                 Nodes.Add(this);
             }
@@ -57,38 +57,38 @@ namespace Related.Graphs {
             }
         }
 
-        public static void GetAllNodes(ref DirectedNode Node, ref SortedList<int, DirectedNode> SortedByID) {
+        public static void GetAllNodes(ref NestedGraph Node, ref SortedList<int, NestedGraph> SortedByID) {
             SortedByID[Node.ID] = Node;
 
             for (int i = 0; i < Node.Children.Count; i++) {
-                DirectedNode kid = Node.Children[i];
+                NestedGraph kid = Node.Children[i];
                 GetAllNodes(ref kid, ref SortedByID);
             }
         }
 
-        public void AddChild(DirectedNode Child) {
+        public void AddChild(NestedGraph Child) {
             if (Child != this) {
                 this.Children.Add(Child);
                 Child.Parents.Add(this);
             }
         }
 
-        public void AddParent(DirectedNode Parent) {
+        public void AddParent(NestedGraph Parent) {
             if (Parent != this) {
                 Parents.Add(Parent);
                 Parent.Children.Add(this);
             }
         }
 
-        public DirectedNode FindNode(int ID) {
+        public NestedGraph FindNode(int ID) {
             return FindNode(this, ID);
         }
 
-        private DirectedNode FindNode(DirectedNode who, int ID) {
+        private NestedGraph FindNode(NestedGraph who, int ID) {
             if (who.ID == ID) { return who; }
 
-            foreach (DirectedNode item in Children) {
-                DirectedNode res = FindNode(item, ID);
+            foreach (NestedGraph item in Children) {
+                NestedGraph res = FindNode(item, ID);
                 if (res != null) { return res; }
             }
 
