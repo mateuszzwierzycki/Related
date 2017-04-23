@@ -114,5 +114,10 @@ namespace Related.Graphs {
             return str;
         }
 
+        public static void FlatTree(NestedGraph G, SortedList<int, NestedGraph> Srt) {
+            Srt[G.ID] = G;
+            foreach (NestedGraph n in G.Children) { FlatTree(n, Srt); }
+        }
+         
     }
 }
