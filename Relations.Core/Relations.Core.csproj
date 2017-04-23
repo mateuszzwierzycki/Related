@@ -43,6 +43,8 @@
     <Compile Include="Abstract\EdgeBase.cs" />
     <Compile Include="Abstract\GraphBase.cs" />
     <Compile Include="Edges\Edges.cs" />
+    <Compile Include="Edges\GraphEdgeList.cs" />
+    <Compile Include="Edges\GraphVertexList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
