@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Relations.Edges {
+namespace Related.Edges {
 
     public abstract class EdgeBase {
 

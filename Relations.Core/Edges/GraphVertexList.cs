@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Relations.Vertices {
+namespace Related.Vertices {
     class GraphVertexList {
     }
 }

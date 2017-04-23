@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Relations.Graphs;
+using Related.Graphs;
 
-namespace Relations.Edges {
+namespace Related.Edges {
     class GraphEdgeList<T> : ICollection<T> where T : EdgeBase {
 
         private SortedList<T, T> _data = new SortedList<T, T>;
