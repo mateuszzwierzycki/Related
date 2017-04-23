@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using Related.Graphs;
 
 namespace Related.Vertices {
-    class GraphVertexList<T> : ICollection<T> where T : struct {
+    [Serializable]
+    public class GraphVertexList<T> : ICollection<T> where T : struct {
 
         private List<T> _data = new List<T>();
         private Graphs.GraphBase _owner = null;
@@ -23,6 +24,12 @@ namespace Related.Vertices {
 
         public void Add(T item) {
             Data.Add(item);
+        }
+
+        public void AddRange(IEnumerable<T> collection) {
+            foreach (T item in collection) {
+                this.Add(item);
+            }
         }
 
         public void Clear() {

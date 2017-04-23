@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Related.Graphs {
+    [Serializable]
     public abstract class GraphBase {
 
         public abstract List<int>[] GetAdjacencyMatrix();
-        public abstract List<int> GetAdjacent();
+        public abstract List<int> GetAdjacent(int index);
 
         public abstract int VertexCount { get; }
 

@@ -7,7 +7,7 @@
     <ProjectGuid>{A832731F-9BB7-4887-BB08-99497B35EC59}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Relations</RootNamespace>
+    <RootNamespace>Related</RootNamespace>
     <AssemblyName>Relations.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,10 +45,11 @@
     <Compile Include="Edges\Edges.cs" />
     <Compile Include="Edges\GraphEdgeList.cs" />
     <Compile Include="Edges\GraphVertexList.cs" />
+    <Compile Include="Graphs\DirectedGraph.cs" />
+    <Compile Include="Graphs\DirectedNode.cs" />
+    <Compile Include="Graphs\UndirectedGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Graphs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

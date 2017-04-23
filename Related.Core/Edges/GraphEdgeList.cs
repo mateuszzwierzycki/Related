@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using Related.Graphs;
 
 namespace Related.Edges {
-    class GraphEdgeList<T> : ICollection<T> where T : EdgeBase {
+    [Serializable]
+    public class GraphEdgeList<T> : ICollection<T> where T : EdgeBase {
 
-        private SortedList<T, T> _data = new SortedList<T, T>;
+        private SortedList<T, T> _data = new SortedList<T, T>();
         private Graphs.GraphBase _owner = null;
         private SortedList<T, T> Data { get => _data; set => _data = value; }
         private GraphBase Owner { get => _owner; set => _owner = value; }
@@ -19,6 +20,21 @@ namespace Related.Edges {
         int ICollection<T>.Count => Data.Count();
 
         internal GraphEdgeList(GraphBase Owner) : base() { this.Owner = Owner; }
+
+        public GraphEdgeList<T> Duplicate(GraphBase NewOwner) {
+            if (NewOwner.VertexCount != this.Owner.VertexCount) {
+                throw new ArgumentOutOfRangeException("NewOwner", "New owner has a different number of vertices than the old one.");
+            }
+
+            GraphEdgeList<T> ng = new GraphEdgeList<T>(NewOwner);
+
+            foreach (T ed in this) {
+                T dup = (T)ed.Duplicate();
+                ng.Add(dup);
+            }
+
+            return ng;
+        }
 
         public T this[T Key] {
             get { return Data[Key]; }
@@ -49,7 +65,7 @@ namespace Related.Edges {
             SortedList<T, T> nl = new SortedList<T, T>();
 
             foreach (T ed in this) {
-                if (ed.IsValid()) { nl[ed] = [ed];  }
+                if (ed.IsValid()) { nl[ed] = ed; }
             }
 
             this._data = nl;
@@ -61,13 +77,13 @@ namespace Related.Edges {
                 EdgeBase thised = ed;
                 this.Remove((T)thised);  //TODO check if this works, casting seems unnecessary.
 
-                if (thised.PointA > Vertex) { thised.PointA -= 1; } 
-                else if(thised.PointA == Vertex) { thised.PointA = -1; }
+                if (thised.PointA > Vertex) { thised.PointA -= 1; }
+                else if (thised.PointA == Vertex) { thised.PointA = -1; }
 
                 if (thised.PointB > Vertex) { thised.PointB -= 1; }
                 else if (thised.PointB == Vertex) { thised.PointB = -1; }
 
-                this.= thised;
+                this[(T)thised]= (T)thised;
             }
 
         }

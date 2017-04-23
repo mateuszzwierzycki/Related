@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Related.Edges {
-
+    [Serializable]
     public abstract class EdgeBase {
 
         #region "Properties" 

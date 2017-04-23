@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Related.Edges {
 
     [Serializable]
-    class UndirectedEdge : EdgeBase, IComparable<UndirectedEdge> {
+    public class UndirectedEdge : EdgeBase, IComparable<UndirectedEdge> {
 
         public UndirectedEdge() : base() { }
         public UndirectedEdge(int A, int B) : base(A, B) { }
@@ -66,7 +66,7 @@ namespace Related.Edges {
     }
 
     [Serializable]
-    class DirectedEdge : EdgeBase, IComparable<DirectedEdge> {
+    public class DirectedEdge : EdgeBase, IComparable<DirectedEdge> {
 
         public DirectedEdge() : base() { }
         public DirectedEdge(int From, int To) : base(From, To) { }
