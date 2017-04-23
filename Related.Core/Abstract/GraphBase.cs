@@ -229,7 +229,7 @@ namespace Related.Graphs {
         }
 
         /// <summary>
-        /// As the Relations uses an array of lists as an adjacency matrix, 
+        /// As the Related library uses an array of lists as an adjacency matrix, 
         /// it might be a bit trickier to transpose it.
         /// </summary>
         /// <param name="AdjacencyMatrix"></param>

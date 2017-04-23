@@ -40,7 +40,7 @@ namespace Related.Graphs {
         /// <returns></returns>
         public bool IsLeaf() { return (Children.Count == 0); }
 
-        public List<NestedGraph]> GetLeafs() {
+        public List<NestedGraph> GetLeafs() {
             List<NestedGraph> nl = new List<NestedGraph>();
             GetLeafNodes(ref nl);
             return nl;
