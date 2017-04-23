@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Relations.Core
-{
-    public class Class1
-    {
+namespace Relations.Edges {
+    class Edges {
+
+
     }
 }
