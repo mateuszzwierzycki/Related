@@ -49,6 +49,7 @@
     <Compile Include="Graphs\NestedGraph.cs" />
     <Compile Include="Graphs\UndirectedGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sets\SetsUtils.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
