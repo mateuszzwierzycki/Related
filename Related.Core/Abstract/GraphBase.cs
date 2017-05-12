@@ -195,7 +195,7 @@ namespace Related.Graphs {
         /// </summary>
         /// <param name="AdjacencyMatrix"></param>
         /// <returns></returns>
-        public List<int> FindSources(List<int>[] AdjacencyMatrix) {
+        public static List<int> FindSources(List<int>[] AdjacencyMatrix) {
             List<int> l = new List<int>();
             bool[] isnt = new bool[AdjacencyMatrix.Length - 1];
 
@@ -218,7 +218,7 @@ namespace Related.Graphs {
         /// </summary>
         /// <param name="AdjacencyMatrix"></param>
         /// <returns></returns>
-        public List<int> FindTargets(List<int>[] AdjacencyMatrix) {
+        public static List<int> FindTargets(List<int>[] AdjacencyMatrix) {
             List<int> l = new List<int>();
 
             for (int i = 0; i < AdjacencyMatrix.Length; i++) {

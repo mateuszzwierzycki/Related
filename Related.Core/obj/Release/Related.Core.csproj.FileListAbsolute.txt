@@ -2,3 +2,5 @@ C:\Users\Mateusz\Source\Repos\Related\Related.Core\bin\Related.Core.dll
 C:\Users\Mateusz\Source\Repos\Related\Related.Core\bin\Related.Core.pdb
 C:\Users\Mateusz\Source\Repos\Related\Related.Core\obj\Release\Related.Core.dll
 C:\Users\Mateusz\Source\Repos\Related\Related.Core\obj\Release\Related.Core.pdb
+D:\OneDrive\SharedBuilds\PolyMesh\Related.Core.dll
+D:\OneDrive\SharedBuilds\PolyMesh\Related.Core.pdb
