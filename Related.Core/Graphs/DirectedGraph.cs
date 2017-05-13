@@ -23,8 +23,8 @@ namespace Related.Graphs {
         }
 
         public DirectedGraph(IEnumerable<T> Vertices) {
-            Edges = new GraphEdgeList<DirectedEdge>(this);
-            Vertices = new GraphVertexList<T>(this);
+            _edges = new GraphEdgeList<DirectedEdge>(this);
+            _vertices = new GraphVertexList<T>(this);
             if (Vertices != null) { this.Vertices.AddRange(Vertices); }
         }
 

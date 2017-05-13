@@ -18,14 +18,14 @@ namespace Related.Graphs {
         public GraphVertexList<T> Vertices { get => _vertices; set => _vertices = value; }
 
         public UndirectedGraph() : base() {
-            Edges = new GraphEdgeList<UndirectedEdge>(this);
-            Vertices = new GraphVertexList<T>(this);
+            _edges = new GraphEdgeList<UndirectedEdge>(this);
+            _vertices = new GraphVertexList<T>(this);
         }
 
         public UndirectedGraph(IEnumerable<T> Vertices) {
-            Edges = new GraphEdgeList<UndirectedEdge>(this);
-            Vertices = new GraphVertexList<T>(this);
-            if (Vertices != null) { this.Vertices.AddRange(Vertices); }
+            _edges = new GraphEdgeList<UndirectedEdge>(this);
+            _vertices = new GraphVertexList<T>(this);
+            if (Vertices != null) { _vertices.AddRange(Vertices); }
         }
 
         public UndirectedGraph<T> Duplicate() {
