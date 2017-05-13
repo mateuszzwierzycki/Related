@@ -72,6 +72,7 @@ namespace Related.Vertices
 
         private void OnVertexRemove(int Vertex) { Owner.OnRemove(Vertex); }
 
+
         public IEnumerator<T> GetEnumerator()
         {
             return Data.GetEnumerator();
