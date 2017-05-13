@@ -8,8 +8,8 @@ using Related.Graphs;
 
 namespace Related.Edges {
     [Serializable]
-    public class GraphEdgeList<T> : IEnumerable<T> , ICollection<T> where T : EdgeBase {
-
+    public class GraphEdgeList<T> : ICollection<T>, IEnumerable<T> where T : EdgeBase {
+        
         private SortedList<T, T> _data = new SortedList<T, T>();
         private Graphs.GraphBase _owner = null;
         private SortedList<T, T> Data { get => _data; set => _data = value; }
