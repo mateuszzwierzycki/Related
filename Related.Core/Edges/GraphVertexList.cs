@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Related.Graphs;
 
-namespace Related.Vertices {
+namespace Related.Vertices
+{
     [Serializable]
-    public class GraphVertexList<T> : ICollection<T> where T : struct {
+    public class GraphVertexList<T> : IEnumerable<T>, ICollection<T> where T : struct
+    {
 
         private List<T> _data = new List<T>();
         private Graphs.GraphBase _owner = null;
@@ -20,21 +22,25 @@ namespace Related.Vertices {
 
         public bool IsReadOnly => false;
 
-        public void Add(T item) {
+        public void Add(T item)
+        {
             Data.Add(item);
         }
 
-        public void AddRange(IEnumerable<T> collection) {
+        public void AddRange(IEnumerable<T> collection)
+        {
             foreach (T item in collection) {
                 this.Add(item);
             }
         }
 
-        public void Clear() {
+        public void Clear()
+        {
             Data.Clear();
         }
 
-        public bool Contains(T item) {
+        public bool Contains(T item)
+        {
             return Data.Contains(item);
         }
 
@@ -43,32 +49,38 @@ namespace Related.Vertices {
             set { Data[index] = value; }
         }
 
-        public void CopyTo(T[] array, int arrayIndex) {
+        public void CopyTo(T[] array, int arrayIndex)
+        {
             for (int i = 0; i < Data.Count(); i++) {
                 array[arrayIndex + i] = this[i];
             }
         }
 
-        public IEnumerator<T> GetEnumerator() {
-            return Data.GetEnumerator();
-        }
 
-        public bool Remove(T item) {
+        public bool Remove(T item)
+        {
             int index = Data.IndexOf(item);
             if (index != -1) { Data.RemoveAt(index); return true; }
             return false;
         }
 
-        public void RemoveAt(int index) {
+        public void RemoveAt(int index)
+        {
             Data.RemoveAt(index);
             OnVertexRemove(index);
         }
 
-        IEnumerator IEnumerable.GetEnumerator() {
+        private void OnVertexRemove(int Vertex) { Owner.OnRemove(Vertex); }
+
+        public IEnumerator<T> GetEnumerator()
+        {
             return Data.GetEnumerator();
         }
 
-        private void OnVertexRemove(int Vertex) { Owner.OnRemove(Vertex); }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Data.GetEnumerator();
+        }
 
     }
 }
