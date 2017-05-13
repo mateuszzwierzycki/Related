@@ -83,7 +83,7 @@ namespace Related.Graphs {
             int vcount = AdjacencyMatrix.Length;
             List<int>[] adj = AdjacencyMatrix;
             List<List<int>> paths = new List<List<int>>();
-            bool[] vis = new bool[vcount - 1];
+            bool[] vis = new bool[vcount];
 
             for (int i = 0; i < Sources.Count(); i++) {
                 List<int> pth = new List<int> { Sources.ElementAt(i) };
@@ -140,7 +140,7 @@ namespace Related.Graphs {
             List<List<int>> ll = new List<List<int>>();
             int vcount = AdjacencyMatrix.Length;
 
-            bool[] done = new bool[vcount - 1];
+            bool[] done = new bool[vcount];
 
             bool run = true;
 
@@ -197,7 +197,7 @@ namespace Related.Graphs {
         /// <returns></returns>
         public static List<int> FindSources(List<int>[] AdjacencyMatrix) {
             List<int> l = new List<int>();
-            bool[] isnt = new bool[AdjacencyMatrix.Length - 1];
+            bool[] isnt = new bool[AdjacencyMatrix.Length];
 
             for (int i = 0; i < AdjacencyMatrix.Length; i++) {
                 for (int j = 0; j < AdjacencyMatrix[i].Count; j++) {
@@ -235,7 +235,7 @@ namespace Related.Graphs {
         /// <param name="AdjacencyMatrix"></param>
         /// <returns></returns>
         public static List<int>[] TransposeMatrix(List<int>[] AdjacencyMatrix) {
-            List<int>[] nm = new List<int>[AdjacencyMatrix.Length - 1];
+            List<int>[] nm = new List<int>[AdjacencyMatrix.Length];
             for (int i = 0; i < nm.Length; i++) {
                 nm[i] = new List<int>();
             }

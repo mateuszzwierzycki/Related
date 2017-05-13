@@ -39,7 +39,7 @@ namespace Related.Graphs {
         public int EdgeCount => Edges.Count();
 
         public override List<int>[] GetAdjacencyMatrix() {
-            List<int>[] adj = new List<int>[this.VertexCount - 1];
+            List<int>[] adj = new List<int>[this.VertexCount];
 
             int cnt = 0;
             foreach (T item in this.Vertices) {
@@ -165,7 +165,7 @@ namespace Related.Graphs {
         public GraphVertexList<bool> Vertices { get => _vertices; set => _vertices = value; }
 
         public override List<int>[] GetAdjacencyMatrix() {
-            List<int>[] adj = new List<int>[this.VertexCount - 1];
+            List<int>[] adj = new List<int>[this.VertexCount];
 
             int cnt = 0;
             foreach (bool item in this.Vertices) {

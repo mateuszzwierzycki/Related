@@ -50,7 +50,7 @@ namespace Related.Graphs {
         public int EdgeCount => Edges.Count();
 
         public List<int>[] GetAdjacencyMatrixUndirected() {
-            List<int>[] adj = new List<int>[this.VertexCount - 1];
+            List<int>[] adj = new List<int>[this.VertexCount];
 
             int cnt = 0;
             foreach (T item in this.Vertices) {
@@ -69,7 +69,7 @@ namespace Related.Graphs {
         }
 
         public override List<int>[] GetAdjacencyMatrix() {
-            List<int>[] adj = new List<int>[this.VertexCount - 1];
+            List<int>[] adj = new List<int>[this.VertexCount];
 
             int cnt = 0;
             foreach (T item in this.Vertices) {
