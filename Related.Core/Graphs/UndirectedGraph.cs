@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Related.Graphs {
-
+    
     [Serializable]
     public class UndirectedGraph<T> : GraphBase where T : struct {
 

@@ -34,11 +34,22 @@ namespace Related.Graphs {
             return ng;
         }
 
+        public UndirectedGraph<T> GetUndirected()
+        {
+            UndirectedGraph<T> ng = new UndirectedGraph<T>(this.Vertices);
+
+            foreach (EdgeBase item in this.Edges) {
+                ng.Edges.Add(new UndirectedEdge(item));
+            }
+
+            return ng; 
+        }
+
         public override int VertexCount => Vertices.Count();
 
         public int EdgeCount => Edges.Count();
 
-        public List<int>[] GetAjacencyMatrixUndirected() {
+        public List<int>[] GetAdjacencyMatrixUndirected() {
             List<int>[] adj = new List<int>[this.VertexCount - 1];
 
             int cnt = 0;
