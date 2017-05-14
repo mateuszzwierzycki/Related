@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace Related.Abstract {
-    abstract public class DirectedGraphBase : Graphs.GraphBase {
+    abstract public class DirectedGraphBase : Abstract.GraphBase {
 
         public static List<List<int>> FindAllWalks(int Source, List<int>[] AdjacencyMatrix) {
             List<HashSet<int>> hsl = new List<HashSet<int>>() { new HashSet<int>() { Source } };

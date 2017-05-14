@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Related.Graphs
+namespace Related.Abstract
 {
     [Serializable]
     public abstract class GraphBase

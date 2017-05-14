@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Related.Graphs;
+using Related.Abstract;
 
 namespace Related.Vertices
 {
@@ -11,7 +11,7 @@ namespace Related.Vertices
     {
 
         private List<T> _data = new List<T>();
-        private Graphs.GraphBase _owner = null;
+        private Abstract.GraphBase _owner = null;
 
         public List<T> Data { get => _data; set => _data = value; }
         public GraphBase Owner { get => _owner; set => _owner = value; }

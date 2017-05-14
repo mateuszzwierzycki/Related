@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace Related.Abstract {
-    abstract public class UndirectedGraphBase : Graphs.GraphBase {
+    abstract public class UndirectedGraphBase : Abstract.GraphBase {
 
         private static void BronKerbosch(HashSet<int> R, HashSet<int> P, HashSet<int> X, ref List<int>[] AdjacencyMatrix, ref HashSet<HashSet<int>> Cliques, int MaxCount = -1) {
             if (P.Count == 0 && X.Count == 0 && R.Count > 2) { Cliques.Add(R); }

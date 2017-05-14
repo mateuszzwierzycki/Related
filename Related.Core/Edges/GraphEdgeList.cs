@@ -2,16 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Related.Graphs;
+using Related.Abstract;
 
 namespace Related.Edges {
     [Serializable]
     public class GraphEdgeList<T> : ICollection<T>, IEnumerable<T> where T : EdgeBase {
         
         private SortedList<T, T> _data = new SortedList<T, T>();
-        private Graphs.GraphBase _owner = null;
+        private Abstract.GraphBase _owner = null;
         private SortedList<T, T> Data { get => _data; set => _data = value; }
         private GraphBase Owner { get => _owner; set => _owner = value; }
 
