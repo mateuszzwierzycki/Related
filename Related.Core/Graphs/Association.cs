@@ -176,6 +176,11 @@ public class GraphComparison<T> where T : struct {
 
             i += 1; 
         }
+
+        System.Array.Sort(Scores, Assocs);
+        System.Array.Reverse(Scores);
+        System.Array.Reverse(Assocs);
+
     }
 
     public HashSet<AssociationPair>[] GetAssociations() {
@@ -230,11 +235,7 @@ public static class Test {
         nc.ComputeAssociations(3);
         HashSet<AssociationPair>[] assoc = nc.GetAssociations();
         double[] score = nc.GetScores();
-
-        System.Array.Sort(score, assoc);
-        System.Array.Reverse(score); 
-        System.Array.Reverse(assoc); 
-
+        
         Debug.WriteLine("here");
     }
 
