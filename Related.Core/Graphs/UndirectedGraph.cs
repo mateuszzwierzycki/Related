@@ -124,7 +124,7 @@ namespace Related.Graphs {
             foreach (UndirectedEdge item in Edges) { g.Edges.Add(new DirectedEdge(item.PointA, item.PointB)); }
             return g;
         }
-        
+
     }
 
 
@@ -203,6 +203,10 @@ namespace Related.Graphs {
                 item.OnVertexRemove(Vertex);
             }
         }
+
     }
 
 }
+
+
+
