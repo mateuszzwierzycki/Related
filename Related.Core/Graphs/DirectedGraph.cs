@@ -1,4 +1,5 @@
-﻿using Related.Edges;
+﻿using Related.Abstract;
+using Related.Edges;
 using Related.Vertices;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace Related.Graphs {
 
     [Serializable]
-    public class DirectedGraph<T> : GraphBase where T : struct {
+    public class DirectedGraph<T> : DirectedGraphBase where T : struct {
 
         private GraphEdgeList<DirectedEdge> _edges = null;
         private GraphVertexList<T> _vertices = null;
@@ -102,45 +103,8 @@ namespace Related.Graphs {
         }
 
         public override string ToString() {
-            return "Directed Graph (V:" + VertexCount.ToString() + " E:" + EdgeCount.ToString() + ")";
+            return "Directed Graph(V:" + VertexCount.ToString() + " E:" + EdgeCount.ToString() + ")";
         }
 
-        public List<List<int>> FindAllWalks(int Source, List<int>[] AdjacencyMatrix) {
-
-            List<HashSet<int>> hsl = new List<HashSet<int>>() { new HashSet<int>() { Source } };
-
-            bool run = true;
-            List<List<int>> walks = new List<List<int>>();
-
-            while (run) {
-                run = false;
-                List<HashSet<int>> nhsl = new List<HashSet<int>>();
-
-                foreach (HashSet<int> hs in hsl) {
-                    int lastvert = hs.Last();
-                    List<int> thisconn = AdjacencyMatrix[lastvert];
-
-                    if (thisconn.Count == 0) { walks.Add(hs.ToList()); continue; }
-
-                    for (int i = 0; i < thisconn.Count; i++) {
-                        int thisnei = thisconn[i];
-                        if (hs.Contains(thisnei)) {
-                            //terminate
-                            walks.Add(hs.ToList());
-                        } else {
-                            run = true;
-                            HashSet<int> newone = new HashSet<int>(hs);
-                            newone.Add(thisnei);
-                            nhsl.Add(newone); 
-                        }
-                    }
-                }
-
-                hsl.Clear();
-                hsl = nhsl;
-            }
-
-            return walks; 
-        }
     }
 }

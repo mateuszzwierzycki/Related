@@ -46,7 +46,7 @@ namespace Related.Edges {
             if (item.PointB > Owner.VertexCount - 1) { throw new IndexOutOfRangeException(); }
             if (!Data.ContainsKey(item)) { Data.Add(item, item);  } 
         }
-
+        
         public void AddRange(IEnumerable<T> Values) {
             foreach (T item in Values) {
                 this.Add(item);

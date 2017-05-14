@@ -1,21 +1,23 @@
-﻿using Related.Edges;
+﻿using Related.Abstract;
+using Related.Edges;
 using Related.Vertices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Related.Graphs {
-    
+
     [Serializable]
-    public class UndirectedGraph<T> : GraphBase where T : struct {
+    public class UndirectedGraph<T> : UndirectedGraphBase where T : struct {
 
         private GraphEdgeList<UndirectedEdge> _edges = null;
         private GraphVertexList<T> _vertices = null;
 
         public GraphEdgeList<UndirectedEdge> Edges { get => _edges; set => _edges = value; }
         public GraphVertexList<T> Vertices { get => _vertices; set => _vertices = value; }
+
+        public override int VertexCount => Vertices.Count();
+        public int EdgeCount => Edges.Count();
 
         public UndirectedGraph() : base() {
             _edges = new GraphEdgeList<UndirectedEdge>(this);
@@ -33,10 +35,6 @@ namespace Related.Graphs {
             ng.Edges = this._edges.Duplicate(ng);
             return ng;
         }
-
-        public override int VertexCount => Vertices.Count();
-
-        public int EdgeCount => Edges.Count();
 
         public override List<int>[] GetAdjacencyMatrix() {
             List<int>[] adj = new List<int>[this.VertexCount];
@@ -79,64 +77,72 @@ namespace Related.Graphs {
         }
 
         public override string ToString() {
-            return "Directed Graph (V:" + VertexCount.ToString() + " E:" + EdgeCount.ToString() + ")";
+            return "Directed Graph(V:" + VertexCount.ToString() + " E:" + EdgeCount.ToString() + ")";
         }
 
-        public List<List<int>> FindAllWalks(int Source, List<int>[] AdjacencyMatrix) {
+        //public List<List<int>> FindAllWalks(int Source, List<int>[] AdjacencyMatrix) {
 
-            List<HashSet<int>> hsl = new List<HashSet<int>>() { new HashSet<int>() { Source } };
+        //    List<HashSet<int>> hsl = new List<HashSet<int>>() { new HashSet<int>() { Source } };
 
-            bool run = true;
-            List<List<int>> walks = new List<List<int>>();
+        //    bool run = true;
+        //    List<List<int>> walks = new List<List<int>>();
 
-            while (run) {
-                run = false;
-                List<HashSet<int>> nhsl = new List<HashSet<int>>();
+        //    while (run) {
+        //        run = false;
+        //        List<HashSet<int>> nhsl = new List<HashSet<int>>();
 
-                foreach (HashSet<int> hs in hsl) {
-                    int lastvert = hs.Last();
-                    List<int> thisconn = AdjacencyMatrix[lastvert];
+        //        foreach (HashSet<int> hs in hsl) {
+        //            int lastvert = hs.Last();
+        //            List<int> thisconn = AdjacencyMatrix[lastvert];
 
-                    if (thisconn.Count == 0) { walks.Add(hs.ToList()); continue; }
+        //            if (thisconn.Count == 0) { walks.Add(hs.ToList()); continue; }
 
-                    for (int i = 0; i < thisconn.Count; i++) {
-                        int thisnei = thisconn[i];
-                        if (hs.Contains(thisnei)) {
-                            //terminate
-                            walks.Add(hs.ToList());
-                        }
-                        else {
-                            run = true;
-                            HashSet<int> newone = new HashSet<int>(hs);
-                            newone.Add(thisnei);
-                            nhsl.Add(newone);
-                        }
-                    }
-                }
+        //            for (int i = 0; i < thisconn.Count; i++) {
+        //                int thisnei = thisconn[i];
+        //                if (hs.Contains(thisnei)) {
+        //                    //terminate
+        //                    walks.Add(hs.ToList());
+        //                }
+        //                else {
+        //                    run = true;
+        //                    HashSet<int> newone = new HashSet<int>(hs);
+        //                    newone.Add(thisnei);
+        //                    nhsl.Add(newone);
+        //                }
+        //            }
+        //        }
 
-                hsl.Clear();
-                hsl = nhsl;
-            }
+        //        hsl.Clear();
+        //        hsl = nhsl;
+        //    }
 
-            return walks;
-        }
+        //    return walks;
+        //}
 
         public DirectedGraph<T> GetDirected() {
             DirectedGraph<T> g = new DirectedGraph<T>(this.Vertices);
-
-            foreach (UndirectedEdge item in Edges) {
-                g.Edges.Add(new DirectedEdge(item.PointA, item.PointB));
-            }
-
+            foreach (UndirectedEdge item in Edges) { g.Edges.Add(new DirectedEdge(item.PointA, item.PointB)); }
             return g;
         }
+        
     }
 
+
+    /// <summary>
+    /// An undirected graph which can hold values in it's edges.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class UndirectedGraphEdgeT<T> : GraphBase where T : struct, IComparable<T> {
+    public class UndirectedGraphEdgeT<T> : UndirectedGraphBase where T : struct, IComparable<T> {
 
         private GraphEdgeList<UndirectedEdge<T>> _edges = null; // new GraphEdgeList<UndirectedEdge<T>>(this); 
         private GraphVertexList<bool> _vertices = null;
+
+        public override int VertexCount => Vertices.Count();
+        public int EdgeCount => Edges.Count();
+
+        public GraphEdgeList<UndirectedEdge<T>> Edges { get => _edges; set => _edges = value; }
+        public GraphVertexList<bool> Vertices { get => _vertices; set => _vertices = value; }
 
         public UndirectedGraphEdgeT() : base() {
             this._edges = new GraphEdgeList<UndirectedEdge<T>>(this);
@@ -157,12 +163,6 @@ namespace Related.Graphs {
             ng.Edges = this.Edges.Duplicate(ng);
             return ng;
         }
-
-        public override int VertexCount => this.Vertices.Count();
-        public int EdgeCount => Edges.Count();
-
-        public GraphEdgeList<UndirectedEdge<T>> Edges { get => _edges; set => _edges = value; }
-        public GraphVertexList<bool> Vertices { get => _vertices; set => _vertices = value; }
 
         public override List<int>[] GetAdjacencyMatrix() {
             List<int>[] adj = new List<int>[this.VertexCount];
@@ -200,9 +200,9 @@ namespace Related.Graphs {
 
         public override void OnRemove(int Vertex) {
             foreach (UndirectedEdge<T> item in this.Edges) {
-                item.OnVertexRemove(Vertex); 
+                item.OnVertexRemove(Vertex);
             }
         }
     }
-    
+
 }

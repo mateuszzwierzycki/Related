@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Related.Graphs {
+namespace Related.Graphs
+{
     [Serializable]
-    public abstract class GraphBase {
+    public abstract class GraphBase
+    {
 
         public abstract List<int>[] GetAdjacencyMatrix();
         public abstract List<int> GetAdjacent(int index);
@@ -27,7 +29,8 @@ namespace Related.Graphs {
         /// <param name="Vertex"></param>
         public virtual void OnAdd(int Vertex) { }
 
-        public static List<int> BreadthFirstSearch(IEnumerable<int> Sources, int LookFor, List<int>[] AdjacencyMatrix) {
+        public static List<int> BreadthFirstSearch(IEnumerable<int> Sources, int LookFor, List<int>[] AdjacencyMatrix)
+        {
             int vcount = AdjacencyMatrix.Length;
             List<int>[] adj = AdjacencyMatrix;
             List<List<int>> paths = new List<List<int>>();
@@ -79,7 +82,8 @@ namespace Related.Graphs {
             return null;
         }
 
-        public static List<List<int>> BreadthFirstTree(IEnumerable<int> Sources, List<int>[] AdjacencyMatrix, out bool[] Visited) {
+        public static List<List<int>> BreadthFirstTree(IEnumerable<int> Sources, List<int>[] AdjacencyMatrix, out bool[] Visited)
+        {
             int vcount = AdjacencyMatrix.Length;
             List<int>[] adj = AdjacencyMatrix;
             List<List<int>> paths = new List<List<int>>();
@@ -135,7 +139,8 @@ namespace Related.Graphs {
         /// </summary>
         /// <param name="AdjacencyMatrix"></param>
         /// <returns></returns>
-        public static List<List<int>> FindDisconnected(List<int>[] AdjacencyMatrix) {
+        public static List<List<int>> FindDisconnected(List<int>[] AdjacencyMatrix)
+        {
             List<int>[] adj = AdjacencyMatrix;
             List<List<int>> ll = new List<List<int>>();
             int vcount = AdjacencyMatrix.Length;
@@ -190,51 +195,13 @@ namespace Related.Graphs {
         }
 
         /// <summary>
-        /// Finds vertices without "parents" in a directed graph.
-        /// Doesn't make sense in an undirected graph.
-        /// </summary>
-        /// <param name="AdjacencyMatrix"></param>
-        /// <returns></returns>
-        public static List<int> FindSources(List<int>[] AdjacencyMatrix) {
-            List<int> l = new List<int>();
-            bool[] isnt = new bool[AdjacencyMatrix.Length];
-
-            for (int i = 0; i < AdjacencyMatrix.Length; i++) {
-                for (int j = 0; j < AdjacencyMatrix[i].Count; j++) {
-                    isnt[AdjacencyMatrix[i][j]] = true;
-                }
-            }
-
-            for (int i = 0; i < AdjacencyMatrix.Length; i++) {
-                if (!isnt[i]) { l.Add(i); }
-            }
-
-            return l;
-        }
-
-        /// <summary>
-        /// Finds vertices without "kids" in a directed graph.
-        /// Doesn't make sense in an undirected graph.
-        /// </summary>
-        /// <param name="AdjacencyMatrix"></param>
-        /// <returns></returns>
-        public static List<int> FindTargets(List<int>[] AdjacencyMatrix) {
-            List<int> l = new List<int>();
-
-            for (int i = 0; i < AdjacencyMatrix.Length; i++) {
-                if (AdjacencyMatrix[i].Count == 0) { l.Add(i); }
-            }
-
-            return l;
-        }
-
-        /// <summary>
         /// As the Related library uses an array of lists as an adjacency matrix, 
         /// it might be a bit trickier to transpose it.
         /// </summary>
         /// <param name="AdjacencyMatrix"></param>
         /// <returns></returns>
-        public static List<int>[] TransposeMatrix(List<int>[] AdjacencyMatrix) {
+        public static List<int>[] TransposeMatrix(List<int>[] AdjacencyMatrix)
+        {
             List<int>[] nm = new List<int>[AdjacencyMatrix.Length];
             for (int i = 0; i < nm.Length; i++) {
                 nm[i] = new List<int>();
@@ -250,6 +217,7 @@ namespace Related.Graphs {
 
             return nm;
         }
-
+         
+        
     }
 }

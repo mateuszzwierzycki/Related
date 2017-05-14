@@ -21,6 +21,8 @@ namespace Related.Edges {
             return 0;
         }
 
+        public static UndirectedEdge Create(int A, int B) { return new UndirectedEdge(A, B); }
+
         public override EdgeBase Duplicate() { return new UndirectedEdge(this); }
 
         public void Orient() {
@@ -45,7 +47,9 @@ namespace Related.Edges {
 
         public UndirectedEdge(int A, int B, T Value) : base(A, B) { this.Value = Value; }
 
-        public int CompareTo(UndirectedEdge<T> Other) {
+        public static UndirectedEdge<T> Create(int A, int B, T Value) { return new UndirectedEdge<T>(A, B, Value); }
+
+            public int CompareTo(UndirectedEdge<T> Other) {
             if (this.Minimum() < Other.Minimum()) { return -1; }
             if (this.Minimum() > Other.Minimum()) { return 1; }
             if (this.Maximum() < Other.Maximum()) { return -1; }
@@ -71,6 +75,8 @@ namespace Related.Edges {
         public DirectedEdge() : base() { }
         public DirectedEdge(int From, int To) : base(From, To) { }
         public DirectedEdge(EdgeBase Other) : base(Other) { }
+
+        public static DirectedEdge Create(int From, int To) { return new DirectedEdge(From, To); }
 
         public int From { get => PointA; set => PointA = value; }
         public int To { get => PointB; set => PointB = value; }
@@ -109,6 +115,8 @@ namespace Related.Edges {
         public int To { get => PointB; set => PointB = value; }
 
         public DirectedEdge(int From, int To, T Value) : base(From, To) { this.Value = Value; }
+
+        public static DirectedEdge<T> Create(int From, int To, T Value) { return new DirectedEdge<T>(From, To,Value); }
 
         public int CompareTo(DirectedEdge<T> Other) {
             if (this.Minimum() < Other.Minimum()) { return -1; }
