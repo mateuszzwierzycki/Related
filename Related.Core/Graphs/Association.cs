@@ -2,7 +2,6 @@
 using Related.Edges;
 using Related.Graphs;
 using Related.Vertices;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -33,15 +32,15 @@ public struct AssociationPair {
         return "Pair(" + A.ToString() + ", " + B.ToString() + ": " + Similarity.ToString("0.000") + ")";
     }
 
-    public static bool operator == (AssociationPair First, AssociationPair Second) {
+    public static bool operator ==(AssociationPair First, AssociationPair Second) {
         bool ca = First.A == Second.A;
         bool cb = First.B == Second.B;
         bool cv = First.Similarity == Second.Similarity;
 
-        return ca & cb & cv; 
+        return ca & cb & cv;
     }
 
-    public static bool operator !=(AssociationPair First, AssociationPair Second) { return ! (First == Second); }
+    public static bool operator !=(AssociationPair First, AssociationPair Second) { return !(First == Second); }
 
 }
 
@@ -57,7 +56,7 @@ public class AssociationGraph : UndirectedGraphBase {
 
     public AssociationGraph() {
         Edges = new GraphEdgeList<UndirectedEdge>(this);
-        Vertices = new GraphVertexList<AssociationPair>(this); 
+        Vertices = new GraphVertexList<AssociationPair>(this);
     }
 
     public override List<int>[] GetAdjacencyMatrix() {
@@ -104,27 +103,28 @@ public class GraphComparison<T> where T : struct {
     private GraphBase GA = null;
     private GraphBase GB = null;
 
-    private AssociationGraph AG = null; 
-    
-    private List<HashSet<AssociationPair>> Assocs = null;
+    private AssociationGraph AG = null;
+
+    private HashSet<AssociationPair>[] Assocs = null;
+    private double[] Scores = null; 
 
     public GraphComparison(UndirectedGraph<T> A, UndirectedGraph<T> B, SimilarityMetric Metric) {
 
         GA = A;
         GB = B;
-        AG = new AssociationGraph(); 
-        
+        AG = new AssociationGraph();
+
         for (int i = 0; i < A.VertexCount; i++) {
             for (int j = 0; j < B.VertexCount; j++) {
                 double val = Metric(A.Vertices[i], B.Vertices[j]);
 
                 if (val > 0) {
-                    AG.Vertices.Add(AssociationPair.Create(i,j,val));
+                    AG.Vertices.Add(AssociationPair.Create(i, j, val));
                 }
             }
         }
 
-        List<int>[] adjA = A.GetAdjacencyMatrix(); 
+        List<int>[] adjA = A.GetAdjacencyMatrix();
         List<int>[] adjB = B.GetAdjacencyMatrix();
 
         for (int i = 0; i < AG.VertexCount; i++) {
@@ -138,7 +138,7 @@ public class GraphComparison<T> where T : struct {
                 AssociationPair thatitem = AG.Vertices[j];
 
                 if (nAthis.Contains(thatitem.A) & nBthis.Contains(thatitem.B)) {
-                    AG.Edges.Add(UndirectedEdge.Create(i, j)); 
+                    AG.Edges.Add(UndirectedEdge.Create(i, j));
                 }
 
                 if (!(nAthis.Contains(thatitem.A) | nBthis.Contains(thatitem.B))) {
@@ -154,7 +154,10 @@ public class GraphComparison<T> where T : struct {
         List<int>[] Matrix = AG.GetAdjacencyMatrix();
         HashSet<HashSet<int>> cli = UndirectedGraphBase.FindMaximalCliques(Matrix, MaxCount);
 
-        Assocs = new List<HashSet<AssociationPair>>(); 
+        Assocs = new HashSet<AssociationPair>[cli.Count];
+        Scores = new double[cli.Count];
+
+        int i = 0; 
 
         foreach (HashSet<int> item in cli) {
             double countA = GA.VertexCount;
@@ -165,16 +168,25 @@ public class GraphComparison<T> where T : struct {
 
             foreach (int index in item) {
                 AssociationPair thispair = this.AG.Vertices[index];
-                thisassoc.Add(thispair); 
+                thisassoc.Add(thispair);
             }
 
-            Assocs.Add(thisassoc);
+            Assocs[i] = thisassoc;
+            Scores[i] = score; 
+
+            i += 1; 
         }
     }
 
-    public List<HashSet<AssociationPair>> GetAssociations() {
+    public HashSet<AssociationPair>[] GetAssociations() {
         return Assocs;
     }
+
+    public double[] GetScores() {
+        return Scores;
+    }
+
+
 
     public delegate double SimilarityMetric(T valueA, T valueB);
 
@@ -185,7 +197,7 @@ public static class Test {
 
     public static void Run() {
 
-        UndirectedGraph<System.Drawing.Color> na = new UndirectedGraph<System.Drawing.Color>(); 
+        UndirectedGraph<System.Drawing.Color> na = new UndirectedGraph<System.Drawing.Color>();
         UndirectedGraph<System.Drawing.Color> nb = new UndirectedGraph<System.Drawing.Color>();
 
         na.Vertices.Add(System.Drawing.Color.Blue);
@@ -200,23 +212,28 @@ public static class Test {
         nb.Vertices.Add(System.Drawing.Color.Yellow);
         nb.Vertices.Add(System.Drawing.Color.Red);
 
-        na.Edges.Add(UndirectedEdge.Create(0, 1)); 
-        na.Edges.Add(UndirectedEdge.Create(1, 2)); 
-        na.Edges.Add(UndirectedEdge.Create(2, 3)); 
-        na.Edges.Add(UndirectedEdge.Create(3, 4)); 
-        na.Edges.Add(UndirectedEdge.Create(4, 2)); 
+        na.Edges.Add(UndirectedEdge.Create(0, 1));
+        na.Edges.Add(UndirectedEdge.Create(1, 2));
+        na.Edges.Add(UndirectedEdge.Create(2, 3));
+        na.Edges.Add(UndirectedEdge.Create(3, 4));
+        na.Edges.Add(UndirectedEdge.Create(4, 2));
 
-        nb.Edges.Add(UndirectedEdge.Create(0, 1)); 
-        nb.Edges.Add(UndirectedEdge.Create(1, 2)); 
-        nb.Edges.Add(UndirectedEdge.Create(2, 3)); 
-        nb.Edges.Add(UndirectedEdge.Create(3, 4)); 
-        nb.Edges.Add(UndirectedEdge.Create(4, 2)); 
+        nb.Edges.Add(UndirectedEdge.Create(0, 1));
+        nb.Edges.Add(UndirectedEdge.Create(1, 2));
+        nb.Edges.Add(UndirectedEdge.Create(2, 3));
+        nb.Edges.Add(UndirectedEdge.Create(3, 4));
+        nb.Edges.Add(UndirectedEdge.Create(4, 2));
 
 
-        GraphComparison<System.Drawing.Color> nc = new GraphComparison<System.Drawing.Color>(na,nb, ColorDistance);
+        GraphComparison<System.Drawing.Color> nc = new GraphComparison<System.Drawing.Color>(na, nb, ColorDistance);
 
-        nc.ComputeAssociations(100);
-        List<HashSet<AssociationPair>> assoc = nc.GetAssociations();
+        nc.ComputeAssociations(3);
+        HashSet<AssociationPair>[] assoc = nc.GetAssociations();
+        double[] score = nc.GetScores();
+
+        System.Array.Sort(score, assoc);
+        System.Array.Reverse(score); 
+        System.Array.Reverse(assoc); 
 
         Debug.WriteLine("here");
     }
@@ -226,8 +243,8 @@ public static class Test {
             return 1;
         }
 
-        return 0; 
+        return 0;
     }
-    
-    
-    }
+
+
+}
