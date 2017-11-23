@@ -103,8 +103,104 @@ namespace Related.Graphs {
         }
 
         public override string ToString() {
-            return "Directed Graph(V:" + VertexCount.ToString() + " E:" + EdgeCount.ToString() + ")";
+            return "Directed Graph <T> (V:" + VertexCount.ToString() + " E:" + EdgeCount.ToString() + ")";
         }
 
     }
+ 
+    /// <summary>
+    /// A directed graph storing values both in verices and edges. 
+    /// </summary>
+    /// <typeparam name="T">Has to be struct</typeparam>
+    /// <typeparam name="Q">Has to be struct, has to implement the IComparable<Q> interface (required for binary search).</typeparam>
+[Serializable]
+public class DirectedGraph<T,Q> : DirectedGraphBase 
+        where T : struct
+        where Q : struct, IComparable<Q>
+    {
+         
+    private GraphEdgeList<DirectedEdge<Q>> _edges = null;
+    private GraphVertexList<T> _vertices = null;
+
+    public GraphEdgeList<DirectedEdge<Q>> Edges { get => _edges; set => _edges = value; }
+    public GraphVertexList<T> Vertices { get => _vertices; set => _vertices = value; }
+
+    public DirectedGraph() : base() {
+        Edges = new GraphEdgeList<DirectedEdge<Q>>(this);
+        Vertices = new GraphVertexList<T>(this);
+    }
+
+    public DirectedGraph(IEnumerable<T> Vertices) {
+        _edges = new GraphEdgeList<DirectedEdge<Q>>(this);
+        _vertices = new GraphVertexList<T>(this);
+        if (Vertices != null) { this.Vertices.AddRange(Vertices); }
+    }
+
+    public DirectedGraph<T,Q> Duplicate() {
+        DirectedGraph<T,Q> ng = new DirectedGraph<T,Q>(this.Vertices);
+        ng.Edges = this._edges.Duplicate(ng);
+        return ng;
+    }
+
+    public override int VertexCount => Vertices.Count();
+
+    public int EdgeCount => Edges.Count();
+
+    public List<int>[] GetAdjacencyMatrixUndirected() {
+        List<int>[] adj = new List<int>[this.VertexCount];
+
+        int cnt = 0;
+        foreach (T item in this.Vertices) {
+            adj[cnt] = new List<int>();
+            cnt += 1;
+        }
+
+        foreach (DirectedEdge<Q> item in Edges) {
+            if (item.IsValid()) {
+                adj[item.From].Add(item.To);
+                adj[item.To].Add(item.From);
+            }
+        }
+
+        return adj;
+    }
+
+    public override List<int>[] GetAdjacencyMatrix() {
+        List<int>[] adj = new List<int>[this.VertexCount];
+
+        int cnt = 0;
+        foreach (T item in this.Vertices) {
+            adj[cnt] = new List<int>();
+            cnt += 1;
+        }
+
+        foreach (DirectedEdge<Q> ed in this.Edges) {
+            if (ed.IsValid()) { adj[ed.From].Add(ed.To); }
+        }
+
+        return adj;
+    }
+
+    public override List<int> GetAdjacent(int index) {
+        List<int> nl = new List<int>();
+
+        foreach (DirectedEdge<Q> ed in Edges) {
+            if (ed.From != index) { continue; }
+            if (ed.IsValid()) { nl.Add(ed.To); }
+        }
+
+        return nl;
+    }
+
+    public override void OnRemove(int Vertex) {
+        foreach (DirectedEdge<Q> item in Edges) {
+            item.OnVertexRemove(Vertex);
+        }
+    }
+
+    public override string ToString() {
+        return "Directed Graph <T,Q> (V:" + VertexCount.ToString() + " E:" + EdgeCount.ToString() + ")";
+    }
+
+}
 }
