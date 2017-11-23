@@ -119,10 +119,10 @@ namespace Related.Edges {
         public static DirectedEdge<T> Create(int From, int To, T Value) { return new DirectedEdge<T>(From, To,Value); }
 
         public int CompareTo(DirectedEdge<T> Other) {
-            if (this.Minimum() < Other.Minimum()) { return -1; }
-            if (this.Minimum() > Other.Minimum()) { return 1; }
-            if (this.Maximum() < Other.Maximum()) { return -1; }
-            if (this.Maximum() > Other.Maximum()) { return 1; }
+            if (this.From < Other.From) { return -1; }
+            if (this.From > Other.From) { return 1; }
+            if (this.To < Other.To) { return -1; }
+            if (this.To > Other.To) { return 1; }
             return this.Value.CompareTo(Other.Value);
         }
 
