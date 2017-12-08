@@ -5,6 +5,9 @@ using Related.Vertices;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+namespace Related.Association {
+
+  
 #pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
 #pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
 public struct AssociationPair {
@@ -106,7 +109,7 @@ public class GraphComparison<T> where T : struct {
     private AssociationGraph AG = null;
 
     private HashSet<AssociationPair>[] Assocs = null;
-    private double[] Scores = null; 
+    private double[] Scores = null;
 
     public GraphComparison(UndirectedGraph<T> A, UndirectedGraph<T> B, SimilarityMetric Metric) {
 
@@ -157,7 +160,7 @@ public class GraphComparison<T> where T : struct {
         Assocs = new HashSet<AssociationPair>[cli.Count];
         Scores = new double[cli.Count];
 
-        int i = 0; 
+        int i = 0;
 
         foreach (HashSet<int> item in cli) {
             double countA = GA.VertexCount;
@@ -172,9 +175,9 @@ public class GraphComparison<T> where T : struct {
             }
 
             Assocs[i] = thisassoc;
-            Scores[i] = score; 
+            Scores[i] = score;
 
-            i += 1; 
+            i += 1;
         }
 
         System.Array.Sort(Scores, Assocs);
@@ -197,55 +200,56 @@ public class GraphComparison<T> where T : struct {
 
 }
 
+//  static class Test {
 
-public static class Test {
+//    private static void Run() {
 
-    public static void Run() {
+//        UndirectedGraph<System.Drawing.Color> na = new UndirectedGraph<System.Drawing.Color>();
+//        UndirectedGraph<System.Drawing.Color> nb = new UndirectedGraph<System.Drawing.Color>();
 
-        UndirectedGraph<System.Drawing.Color> na = new UndirectedGraph<System.Drawing.Color>();
-        UndirectedGraph<System.Drawing.Color> nb = new UndirectedGraph<System.Drawing.Color>();
+//        na.Vertices.Add(System.Drawing.Color.Blue);
+//        na.Vertices.Add(System.Drawing.Color.Blue);
+//        na.Vertices.Add(System.Drawing.Color.Red);
+//        na.Vertices.Add(System.Drawing.Color.Red);
+//        na.Vertices.Add(System.Drawing.Color.Red);
 
-        na.Vertices.Add(System.Drawing.Color.Blue);
-        na.Vertices.Add(System.Drawing.Color.Blue);
-        na.Vertices.Add(System.Drawing.Color.Red);
-        na.Vertices.Add(System.Drawing.Color.Red);
-        na.Vertices.Add(System.Drawing.Color.Red);
+//        nb.Vertices.Add(System.Drawing.Color.Blue);
+//        nb.Vertices.Add(System.Drawing.Color.Blue);
+//        nb.Vertices.Add(System.Drawing.Color.Red);
+//        nb.Vertices.Add(System.Drawing.Color.Yellow);
+//        nb.Vertices.Add(System.Drawing.Color.Red);
 
-        nb.Vertices.Add(System.Drawing.Color.Blue);
-        nb.Vertices.Add(System.Drawing.Color.Blue);
-        nb.Vertices.Add(System.Drawing.Color.Red);
-        nb.Vertices.Add(System.Drawing.Color.Yellow);
-        nb.Vertices.Add(System.Drawing.Color.Red);
+//        na.Edges.Add(UndirectedEdge.Create(0, 1));
+//        na.Edges.Add(UndirectedEdge.Create(1, 2));
+//        na.Edges.Add(UndirectedEdge.Create(2, 3));
+//        na.Edges.Add(UndirectedEdge.Create(3, 4));
+//        na.Edges.Add(UndirectedEdge.Create(4, 2));
 
-        na.Edges.Add(UndirectedEdge.Create(0, 1));
-        na.Edges.Add(UndirectedEdge.Create(1, 2));
-        na.Edges.Add(UndirectedEdge.Create(2, 3));
-        na.Edges.Add(UndirectedEdge.Create(3, 4));
-        na.Edges.Add(UndirectedEdge.Create(4, 2));
-
-        nb.Edges.Add(UndirectedEdge.Create(0, 1));
-        nb.Edges.Add(UndirectedEdge.Create(1, 2));
-        nb.Edges.Add(UndirectedEdge.Create(2, 3));
-        nb.Edges.Add(UndirectedEdge.Create(3, 4));
-        nb.Edges.Add(UndirectedEdge.Create(4, 2));
+//        nb.Edges.Add(UndirectedEdge.Create(0, 1));
+//        nb.Edges.Add(UndirectedEdge.Create(1, 2));
+//        nb.Edges.Add(UndirectedEdge.Create(2, 3));
+//        nb.Edges.Add(UndirectedEdge.Create(3, 4));
+//        nb.Edges.Add(UndirectedEdge.Create(4, 2));
 
 
-        GraphComparison<System.Drawing.Color> nc = new GraphComparison<System.Drawing.Color>(na, nb, ColorDistance);
+//        GraphComparison<System.Drawing.Color> nc = new GraphComparison<System.Drawing.Color>(na, nb, ColorDistance);
 
-        nc.ComputeAssociations(3);
-        HashSet<AssociationPair>[] assoc = nc.GetAssociations();
-        double[] score = nc.GetScores();
-        
-        Debug.WriteLine("here");
-    }
+//        nc.ComputeAssociations(3);
+//        HashSet<AssociationPair>[] assoc = nc.GetAssociations();
+//        double[] score = nc.GetScores();
 
-    public static double ColorDistance(System.Drawing.Color A, System.Drawing.Color B) {
-        if (A == B) {
-            return 1;
-        }
+//        Debug.WriteLine("here");
+//    }
 
-        return 0;
-    }
+//    private static double ColorDistance(System.Drawing.Color A, System.Drawing.Color B) {
+//        if (A == B) {
+//            return 1;
+//        }
 
+//        return 0;
+//    }
+
+
+//}
 
 }

@@ -48,7 +48,7 @@
     <Compile Include="Edges\Edges.cs" />
     <Compile Include="Edges\GraphEdgeList.cs" />
     <Compile Include="Edges\GraphVertexList.cs" />
-    <Compile Include="Graphs\Association.cs" />
+    <Compile Include="Association\Association.cs" />
     <Compile Include="Graphs\DirectedGraph.cs" />
     <Compile Include="Graphs\NestedGraph.cs" />
     <Compile Include="Graphs\UndirectedGraph.cs" />

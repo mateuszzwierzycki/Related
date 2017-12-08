@@ -10,34 +10,34 @@ using System.Threading.Tasks;
 namespace Related.Graphs {
 
     [Serializable]
-    public class DirectedGraph<T> : DirectedGraphBase where T : struct {
+    public class DirectedGraph<VertexValue> : DirectedGraphBase where VertexValue : struct {
 
         private GraphEdgeList<DirectedEdge> _edges = null;
-        private GraphVertexList<T> _vertices = null;
+        private GraphVertexList<VertexValue> _vertices = null;
 
         public GraphEdgeList<DirectedEdge> Edges { get => _edges; set => _edges = value; }
-        public GraphVertexList<T> Vertices { get => _vertices; set => _vertices = value; }
+        public GraphVertexList<VertexValue> Vertices { get => _vertices; set => _vertices = value; }
 
         public DirectedGraph() : base() {
             Edges = new GraphEdgeList<DirectedEdge>(this);
-            Vertices = new GraphVertexList<T>(this);
+            Vertices = new GraphVertexList<VertexValue>(this);
         }
 
-        public DirectedGraph(IEnumerable<T> Vertices) {
+        public DirectedGraph(IEnumerable<VertexValue> Vertices) {
             _edges = new GraphEdgeList<DirectedEdge>(this);
-            _vertices = new GraphVertexList<T>(this);
+            _vertices = new GraphVertexList<VertexValue>(this);
             if (Vertices != null) { this.Vertices.AddRange(Vertices); }
         }
 
-        public DirectedGraph<T> Duplicate() {
-            DirectedGraph<T> ng = new DirectedGraph<T>(this.Vertices);
+        public DirectedGraph<VertexValue> Duplicate() {
+            DirectedGraph<VertexValue> ng = new DirectedGraph<VertexValue>(this.Vertices);
             ng.Edges = this._edges.Duplicate(ng);
             return ng;
         }
 
-        public UndirectedGraph<T> GetUndirected()
+        public UndirectedGraph<VertexValue> GetUndirected()
         {
-            UndirectedGraph<T> ng = new UndirectedGraph<T>(this.Vertices);
+            UndirectedGraph<VertexValue> ng = new UndirectedGraph<VertexValue>(this.Vertices);
 
             foreach (EdgeBase item in this.Edges) {
                 ng.Edges.Add(new UndirectedEdge(item));
@@ -54,7 +54,7 @@ namespace Related.Graphs {
             List<int>[] adj = new List<int>[this.VertexCount];
 
             int cnt = 0;
-            foreach (T item in this.Vertices) {
+            foreach (VertexValue item in this.Vertices) {
                 adj[cnt] = new List<int>();
                 cnt += 1;
             }
@@ -73,7 +73,7 @@ namespace Related.Graphs {
             List<int>[] adj = new List<int>[this.VertexCount];
 
             int cnt = 0;
-            foreach (T item in this.Vertices) {
+            foreach (VertexValue item in this.Vertices) {
                 adj[cnt] = new List<int>();
                 cnt += 1;
             }
@@ -111,33 +111,33 @@ namespace Related.Graphs {
     /// <summary>
     /// A directed graph storing values both in verices and edges. 
     /// </summary>
-    /// <typeparam name="T">Has to be struct</typeparam>
-    /// <typeparam name="Q">Has to be struct, has to implement the IComparable<Q> interface (required for binary search).</typeparam>
+    /// <typeparam name="VertexValue">Has to be struct</typeparam>
+    /// <typeparam name="EdgeValue">Has to be struct, has to implement the IComparable<Q> interface (required for binary search).</typeparam>
 [Serializable]
-public class DirectedGraph<T,Q> : DirectedGraphBase 
-        where T : struct
-        where Q : struct, IComparable<Q>
+public class DirectedGraph<VertexValue,EdgeValue> : DirectedGraphBase 
+        where VertexValue : struct
+        where EdgeValue : struct, IComparable<EdgeValue>
     {
          
-    private GraphEdgeList<DirectedEdge<Q>> _edges = null;
-    private GraphVertexList<T> _vertices = null;
+    private GraphEdgeList<DirectedEdge<EdgeValue>> _edges = null;
+    private GraphVertexList<VertexValue> _vertices = null;
 
-    public GraphEdgeList<DirectedEdge<Q>> Edges { get => _edges; set => _edges = value; }
-    public GraphVertexList<T> Vertices { get => _vertices; set => _vertices = value; }
+    public GraphEdgeList<DirectedEdge<EdgeValue>> Edges { get => _edges; set => _edges = value; }
+    public GraphVertexList<VertexValue> Vertices { get => _vertices; set => _vertices = value; }
 
     public DirectedGraph() : base() {
-        Edges = new GraphEdgeList<DirectedEdge<Q>>(this);
-        Vertices = new GraphVertexList<T>(this);
+        Edges = new GraphEdgeList<DirectedEdge<EdgeValue>>(this);
+        Vertices = new GraphVertexList<VertexValue>(this);
     }
 
-    public DirectedGraph(IEnumerable<T> Vertices) {
-        _edges = new GraphEdgeList<DirectedEdge<Q>>(this);
-        _vertices = new GraphVertexList<T>(this);
+    public DirectedGraph(IEnumerable<VertexValue> Vertices) {
+        _edges = new GraphEdgeList<DirectedEdge<EdgeValue>>(this);
+        _vertices = new GraphVertexList<VertexValue>(this);
         if (Vertices != null) { this.Vertices.AddRange(Vertices); }
     }
 
-    public DirectedGraph<T,Q> Duplicate() {
-        DirectedGraph<T,Q> ng = new DirectedGraph<T,Q>(this.Vertices);
+    public DirectedGraph<VertexValue,EdgeValue> Duplicate() {
+        DirectedGraph<VertexValue,EdgeValue> ng = new DirectedGraph<VertexValue,EdgeValue>(this.Vertices);
         ng.Edges = this._edges.Duplicate(ng);
         return ng;
     }
@@ -150,12 +150,12 @@ public class DirectedGraph<T,Q> : DirectedGraphBase
         List<int>[] adj = new List<int>[this.VertexCount];
 
         int cnt = 0;
-        foreach (T item in this.Vertices) {
+        foreach (VertexValue item in this.Vertices) {
             adj[cnt] = new List<int>();
             cnt += 1;
         }
 
-        foreach (DirectedEdge<Q> item in Edges) {
+        foreach (DirectedEdge<EdgeValue> item in Edges) {
             if (item.IsValid()) {
                 adj[item.From].Add(item.To);
                 adj[item.To].Add(item.From);
@@ -169,12 +169,12 @@ public class DirectedGraph<T,Q> : DirectedGraphBase
         List<int>[] adj = new List<int>[this.VertexCount];
 
         int cnt = 0;
-        foreach (T item in this.Vertices) {
+        foreach (VertexValue item in this.Vertices) {
             adj[cnt] = new List<int>();
             cnt += 1;
         }
 
-        foreach (DirectedEdge<Q> ed in this.Edges) {
+        foreach (DirectedEdge<EdgeValue> ed in this.Edges) {
             if (ed.IsValid()) { adj[ed.From].Add(ed.To); }
         }
 
@@ -184,7 +184,7 @@ public class DirectedGraph<T,Q> : DirectedGraphBase
     public override List<int> GetAdjacent(int index) {
         List<int> nl = new List<int>();
 
-        foreach (DirectedEdge<Q> ed in Edges) {
+        foreach (DirectedEdge<EdgeValue> ed in Edges) {
             if (ed.From != index) { continue; }
             if (ed.IsValid()) { nl.Add(ed.To); }
         }
@@ -193,7 +193,7 @@ public class DirectedGraph<T,Q> : DirectedGraphBase
     }
 
     public override void OnRemove(int Vertex) {
-        foreach (DirectedEdge<Q> item in Edges) {
+        foreach (DirectedEdge<EdgeValue> item in Edges) {
             item.OnVertexRemove(Vertex);
         }
     }

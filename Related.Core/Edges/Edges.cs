@@ -102,7 +102,7 @@ namespace Related.Edges {
     }
 
     [Serializable]
-    public class DirectedEdge<T> : EdgeBase, IComparable<DirectedEdge<T>> where T : IComparable<T> {
+    public class DirectedEdge<T> : EdgeBase, IComparable<DirectedEdge<T>> {
 
         T myval = default(T);
 
@@ -123,7 +123,7 @@ namespace Related.Edges {
             if (this.From > Other.From) { return 1; }
             if (this.To < Other.To) { return -1; }
             if (this.To > Other.To) { return 1; }
-            return this.Value.CompareTo(Other.Value);
+            return 0;
         }
 
         public override EdgeBase Duplicate() { return new DirectedEdge<T>(this.PointA, this.PointB, this.Value); }
