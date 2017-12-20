@@ -200,105 +200,102 @@ namespace Related.Graphs {
         }
 
     }
- 
-//    /// <summary>
-//    /// A directed graph storing values both in verices and edges. 
-//    /// </summary>
-//    /// <typeparam name="VertexValue">Has to be struct</typeparam>
-//    /// <typeparam name="EdgeValue">Has to be struct.</typeparam>
-//[Serializable]
-//public class DGraph<VertexValue,EdgeValue> : DGraphBase 
-//        where VertexValue : struct
-//        where EdgeValue : struct, IComparable<EdgeValue>
-//    {
-         
-//    private EdgeList<DEdge<EdgeValue>> _edges = null;
-//    private VertexList<VertexValue> _vertices = null;
 
-//    public EdgeList<DEdge<EdgeValue>> Edges { get => _edges; set => _edges = value; }
-//    public VertexList<VertexValue> Vertices { get => _vertices; set => _vertices = value; }
+    /// <summary>
+    /// A directed graph storing values both in verices and edges. 
+    /// </summary>
+    /// <typeparam name="VertexValue">Has to be struct</typeparam>
+    /// <typeparam name="EdgeValue">Has to be struct.</typeparam>
+    [Serializable]
+    public class DGraph<VertexValue, EdgeValue> : DGraphBase {
 
-//    public DGraph() : base() {
-//        Edges = new EdgeList<DEdge<EdgeValue>>(this);
-//        Vertices = new VertexList<VertexValue>(this);
-//    }
+        private EdgeList<DEdge<EdgeValue>> _edges = null;
+        private VertexList<VertexValue> _vertices = null;
 
-//    public DGraph(IEnumerable<VertexValue> Vertices) {
-//        _edges = new EdgeList<DEdge<EdgeValue>>(this);
-//        _vertices = new VertexList<VertexValue>(this);
-//        if (Vertices != null) { this.Vertices.AddRange(Vertices); }
-//    }
+        public EdgeList<DEdge<EdgeValue>> Edges { get => _edges; set => _edges = value; }
+        public VertexList<VertexValue> Vertices { get => _vertices; set => _vertices = value; }
 
-//    public DGraph<VertexValue,EdgeValue> Duplicate() {
-//        DGraph<VertexValue,EdgeValue> ng = new DGraph<VertexValue,EdgeValue>(this.Vertices);
-//        ng.Edges = this._edges.Duplicate(ng);
-//        return ng;
-//    }
+        public DGraph() : base() {
+            Edges = new EdgeList<DEdge<EdgeValue>>(this);
+            Vertices = new VertexList<VertexValue>(this);
+        }
 
-//    public override int VertexCount => Vertices.Count();
+        public DGraph(IEnumerable<VertexValue> Vertices) {
+            _edges = new EdgeList<DEdge<EdgeValue>>(this);
+            _vertices = new VertexList<VertexValue>(this);
+            if (Vertices != null) { this.Vertices.AddRange(Vertices); }
+        }
 
-//    public int EdgeCount => Edges.Count();
+        //public DGraph<VertexValue, EdgeValue> Duplicate() {
+        //    DGraph<VertexValue, EdgeValue> ng = new DGraph<VertexValue, EdgeValue>(this.Vertices);
+        //    ng.Edges = this._edges.Duplicate(ng);
+        //    return ng;
+        //}
 
-//    public List<int>[] GetAdjacencyMatrixUndirected() {
-//        List<int>[] adj = new List<int>[this.VertexCount];
+        public override int VertexCount => Vertices.Count();
 
-//        int cnt = 0;
-//        foreach (VertexValue item in this.Vertices) {
-//            adj[cnt] = new List<int>();
-//            cnt += 1;
-//        }
+        public int EdgeCount => Edges.Count();
 
-//        foreach (DEdge<EdgeValue> item in Edges) {
-//            if (item.IsValid()) {
-//                adj[item.From].Add(item.To);
-//                adj[item.To].Add(item.From);
-//            }
-//        }
+        public List<int>[] GetAdjacencyMatrixUndirected() {
+            List<int>[] adj = new List<int>[this.VertexCount];
 
-//        return adj;
-//    }
+            int cnt = 0;
+            foreach (VertexValue item in this.Vertices) {
+                adj[cnt] = new List<int>();
+                cnt += 1;
+            }
 
-//    public override List<int>[] GetAdjacencyMatrix() {
-//        List<int>[] adj = new List<int>[this.VertexCount];
+            foreach (DEdge<EdgeValue> item in Edges) {
+                if (item.IsValid()) {
+                    adj[item.From].Add(item.To);
+                    adj[item.To].Add(item.From);
+                }
+            }
 
-//        int cnt = 0;
-//        foreach (VertexValue item in this.Vertices) {
-//            adj[cnt] = new List<int>();
-//            cnt += 1;
-//        }
+            return adj;
+        }
 
-//        foreach (DEdge<EdgeValue> ed in this.Edges) {
-//            if (ed.IsValid()) { adj[ed.From].Add(ed.To); }
-//        }
+        public override List<int>[] GetAdjacencyMatrix() {
+            List<int>[] adj = new List<int>[this.VertexCount];
 
-//        return adj;
-//    }
+            int cnt = 0;
+            foreach (VertexValue item in this.Vertices) {
+                adj[cnt] = new List<int>();
+                cnt += 1;
+            }
+
+            foreach (DEdge<EdgeValue> ed in this.Edges) {
+                if (ed.IsValid()) { adj[ed.From].Add(ed.To); }
+            }
+
+            return adj;
+        }
 
 
-//        public override List<int> GetAdjacent(int index, List<int>[] CachedAMatrix) {
-//            return CachedAMatrix[index];
-//        }
+        public override List<int> GetAdjacent(int index, List<int>[] CachedAMatrix) {
+            return CachedAMatrix[index];
+        }
 
-//        public override List<int> GetAdjacent(int index) {
-//        List<int> nl = new List<int>();
+        public override List<int> GetAdjacent(int index) {
+            List<int> nl = new List<int>();
 
-//        foreach (DEdge<EdgeValue> ed in Edges) {
-//            if (ed.From != index) { continue; }
-//            if (ed.IsValid()) { nl.Add(ed.To); }
-//        }
+            foreach (DEdge<EdgeValue> ed in Edges) {
+                if (ed.From != index) { continue; }
+                if (ed.IsValid()) { nl.Add(ed.To); }
+            }
 
-//        return nl;
-//    }
+            return nl;
+        }
 
-//    public override void OnRemove(int Vertex) {
-//        foreach (DEdge<EdgeValue> item in Edges) {
-//            item.OnVertexRemove(Vertex);
-//        }
-//    }
+        public override void OnRemove(int Vertex) {
+            foreach (DEdge<EdgeValue> item in Edges) {
+                item.OnVertexRemove(Vertex);
+            }
+        }
 
-//    public override string ToString() {
-//        return "Directed Graph <T,Q> (V:" + VertexCount.ToString() + " E:" + EdgeCount.ToString() + ")";
-//    }
+        public override string ToString() {
+            return "Directed Graph <T,Q> (V:" + VertexCount.ToString() + " E:" + EdgeCount.ToString() + ")";
+        }
 
-//}
+    }
 }
