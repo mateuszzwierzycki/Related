@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace Related.Edges {
 
+    /// <summary>
+    /// Undirected Edge
+    /// </summary>
     [Serializable]
-    public class UndirectedEdge : EdgeBase, IComparable<UndirectedEdge> {
+    public class UEdge : EdgeBase, IComparable<UEdge> {
 
-        public UndirectedEdge() : base() { }
-        public UndirectedEdge(int A, int B) : base(A, B) { }
-        public UndirectedEdge(EdgeBase Other) : base(Other) { }
+        public UEdge() : base() { }
+        public UEdge(int A, int B) : base(A, B) { }
+        public UEdge(EdgeBase Other) : base(Other) { }
 
-        public int CompareTo(UndirectedEdge Other) {
+        public int CompareTo(UEdge Other) {
             if (this.Minimum() < Other.Minimum()) { return -1; }
             if (this.Minimum() > Other.Minimum()) { return 1; }
             if (this.Maximum() < Other.Maximum()) { return -1; }
@@ -21,9 +24,9 @@ namespace Related.Edges {
             return 0;
         }
 
-        public static UndirectedEdge Create(int A, int B) { return new UndirectedEdge(A, B); }
+        public static UEdge Create(int A, int B) { return new UEdge(A, B); }
 
-        public override EdgeBase Duplicate() { return new UndirectedEdge(this); }
+        public override EdgeBase Duplicate() { return new UEdge(this); }
 
         public void Orient() {
             if (this.PointA > this.PointB) { this.Flip(); }
@@ -35,8 +38,12 @@ namespace Related.Edges {
 
     }
 
+    /// <summary>
+    /// Undirected Edge which can store a value. The value does not take part in CompareTo. 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class UndirectedEdge<T> : EdgeBase, IComparable<UndirectedEdge<T>> where T : IComparable<T> {
+    public class UEdge<T> : EdgeBase, IComparable<UEdge<T>>{
 
         T myval = default(T);
 
@@ -45,19 +52,19 @@ namespace Related.Edges {
             set { myval = value; }
         }
 
-        public UndirectedEdge(int A, int B, T Value) : base(A, B) { this.Value = Value; }
+        public UEdge(int A, int B, T Value) : base(A, B) { this.Value = Value; }
 
-        public static UndirectedEdge<T> Create(int A, int B, T Value) { return new UndirectedEdge<T>(A, B, Value); }
+        public static UEdge<T> Create(int A, int B, T Value) { return new UEdge<T>(A, B, Value); }
 
-            public int CompareTo(UndirectedEdge<T> Other) {
+            public int CompareTo(UEdge<T> Other) {
             if (this.Minimum() < Other.Minimum()) { return -1; }
             if (this.Minimum() > Other.Minimum()) { return 1; }
             if (this.Maximum() < Other.Maximum()) { return -1; }
             if (this.Maximum() > Other.Maximum()) { return 1; }
-            return this.Value.CompareTo(Other.Value);
+            return 0;
         }
 
-        public override EdgeBase Duplicate() { return new UndirectedEdge<T>(this.PointA, this.PointB, this.Value); }
+        public override EdgeBase Duplicate() { return new UEdge<T>(this.PointA, this.PointB, this.Value); }
 
         public void Orient() {
             if (this.PointA > this.PointB) { this.Flip(); }
@@ -69,19 +76,22 @@ namespace Related.Edges {
 
     }
 
+    /// <summary>
+    /// Directed Edge
+    /// </summary>
     [Serializable]
-    public class DirectedEdge : EdgeBase, IComparable<DirectedEdge> {
+    public class DEdge : EdgeBase, IComparable<DEdge> {
 
-        public DirectedEdge() : base() { }
-        public DirectedEdge(int From, int To) : base(From, To) { }
-        public DirectedEdge(EdgeBase Other) : base(Other) { }
+        public DEdge() : base() { }
+        public DEdge(int From, int To) : base(From, To) { }
+        public DEdge(EdgeBase Other) : base(Other) { }
 
-        public static DirectedEdge Create(int From, int To) { return new DirectedEdge(From, To); }
+        public static DEdge Create(int From, int To) { return new DEdge(From, To); }
 
         public int From { get => PointA; set => PointA = value; }
         public int To { get => PointB; set => PointB = value; }
 
-        public int CompareTo(DirectedEdge Other) {
+        public int CompareTo(DEdge Other) {
             if (this.From < Other.From) { return -1; }
             if (this.From > Other.From) { return 1; }
             if (this.To < Other.To) { return -1; }
@@ -89,7 +99,7 @@ namespace Related.Edges {
             return 0;
         }
 
-        public override EdgeBase Duplicate() { return new DirectedEdge(this); }
+        public override EdgeBase Duplicate() { return new DEdge(this); }
 
         public void Orient() {
             if (this.PointA > this.PointB) { this.Flip(); }
@@ -101,8 +111,12 @@ namespace Related.Edges {
 
     }
 
+    /// <summary>
+    /// Directed Edge which can store a value. The value does not take part in CompareTo. 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class DirectedEdge<T> : EdgeBase, IComparable<DirectedEdge<T>> {
+    public class DEdge<T> : EdgeBase, IComparable<DEdge<T>> {
 
         T myval = default(T);
 
@@ -114,11 +128,11 @@ namespace Related.Edges {
         public int From { get => PointA; set => PointA = value; }
         public int To { get => PointB; set => PointB = value; }
 
-        public DirectedEdge(int From, int To, T Value) : base(From, To) { this.Value = Value; }
+        public DEdge(int From, int To, T Value) : base(From, To) { this.Value = Value; }
 
-        public static DirectedEdge<T> Create(int From, int To, T Value) { return new DirectedEdge<T>(From, To,Value); }
+        public static DEdge<T> Create(int From, int To, T Value) { return new DEdge<T>(From, To,Value); }
 
-        public int CompareTo(DirectedEdge<T> Other) {
+        public int CompareTo(DEdge<T> Other) {
             if (this.From < Other.From) { return -1; }
             if (this.From > Other.From) { return 1; }
             if (this.To < Other.To) { return -1; }
@@ -126,7 +140,7 @@ namespace Related.Edges {
             return 0;
         }
 
-        public override EdgeBase Duplicate() { return new DirectedEdge<T>(this.PointA, this.PointB, this.Value); }
+        public override EdgeBase Duplicate() { return new DEdge<T>(this.PointA, this.PointB, this.Value); }
 
         public void Orient() {
             if (this.PointA > this.PointB) { this.Flip(); }

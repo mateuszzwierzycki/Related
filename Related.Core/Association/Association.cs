@@ -1,16 +1,14 @@
 ﻿using Related.Abstract;
+using Related.Collections;
 using Related.Edges;
 using Related.Graphs;
-using Related.Vertices;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Related.Association {
 
-  
 #pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
 #pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
-public struct AssociationPair {
+    public struct AssociationPair {
 #pragma warning restore CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
 #pragma warning restore CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
     private int _a;
@@ -47,19 +45,19 @@ public struct AssociationPair {
 
 }
 
-public class AssociationGraph : UndirectedGraphBase {
+public class AssociationGraph : UGraphBase {
 
-    private GraphVertexList<AssociationPair> _vertices = null;
-    private GraphEdgeList<UndirectedEdge> _edges = null;
+    private VertexList<AssociationPair> _vertices = null;
+    private EdgeList<UEdge> _edges = null;
 
-    public GraphEdgeList<UndirectedEdge> Edges { get => _edges; set => _edges = value; }
-    public GraphVertexList<AssociationPair> Vertices { get => _vertices; set => _vertices = value; }
+    public EdgeList<UEdge> Edges { get => _edges; set => _edges = value; }
+    public VertexList<AssociationPair> Vertices { get => _vertices; set => _vertices = value; }
 
     public override int VertexCount => _vertices.Count;
 
     public AssociationGraph() {
-        Edges = new GraphEdgeList<UndirectedEdge>(this);
-        Vertices = new GraphVertexList<AssociationPair>(this);
+        Edges = new EdgeList<UEdge>(this);
+        Vertices = new VertexList<AssociationPair>(this);
     }
 
     public override List<int>[] GetAdjacencyMatrix() {
@@ -71,7 +69,7 @@ public class AssociationGraph : UndirectedGraphBase {
             cnt += 1;
         }
 
-        foreach (UndirectedEdge ed in this.Edges) {
+        foreach (UEdge ed in this.Edges) {
             if (ed.IsValid()) {
                 adj[ed.PointA].Add(ed.PointB);
                 adj[ed.PointB].Add(ed.PointA);
@@ -84,7 +82,7 @@ public class AssociationGraph : UndirectedGraphBase {
     public override List<int> GetAdjacent(int index) {
         List<int> nl = new List<int>();
 
-        foreach (UndirectedEdge ed in Edges) {
+        foreach (UEdge ed in Edges) {
             if (!ed.IsValid()) { continue; }
 
             if (ed.IsCycle() & ed.PointA == index) { nl.Add(ed.PointA); continue; }
@@ -95,7 +93,11 @@ public class AssociationGraph : UndirectedGraphBase {
 
         return nl;
     }
-}
+
+        public override List<int> GetAdjacent(int index, List<int>[] CachedAMatrix) {
+            return CachedAMatrix[index]; 
+        }
+    }
 
 /// <summary>
 /// Implemenation of "Heuristics for Chemical Compound Matching", Hattori et al., 2003.
@@ -111,7 +113,7 @@ public class GraphComparison<T> where T : struct {
     private HashSet<AssociationPair>[] Assocs = null;
     private double[] Scores = null;
 
-    public GraphComparison(UndirectedGraph<T> A, UndirectedGraph<T> B, SimilarityMetric Metric) {
+    public GraphComparison(UGraph<T> A, UGraph<T> B, SimilarityMetric Metric) {
 
         GA = A;
         GB = B;
@@ -141,11 +143,11 @@ public class GraphComparison<T> where T : struct {
                 AssociationPair thatitem = AG.Vertices[j];
 
                 if (nAthis.Contains(thatitem.A) & nBthis.Contains(thatitem.B)) {
-                    AG.Edges.Add(UndirectedEdge.Create(i, j));
+                    AG.Edges.Add(UEdge.Create(i, j));
                 }
 
                 if (!(nAthis.Contains(thatitem.A) | nBthis.Contains(thatitem.B))) {
-                    AG.Edges.Add(UndirectedEdge.Create(i, j));
+                    AG.Edges.Add(UEdge.Create(i, j));
                 }
 
             }
@@ -155,7 +157,7 @@ public class GraphComparison<T> where T : struct {
 
     public void ComputeAssociations(int MaxCount) {
         List<int>[] Matrix = AG.GetAdjacencyMatrix();
-        HashSet<HashSet<int>> cli = UndirectedGraphBase.FindMaximalCliques(Matrix, MaxCount);
+        HashSet<HashSet<int>> cli = UGraphBase.FindMaximalCliques(Matrix, MaxCount);
 
         Assocs = new HashSet<AssociationPair>[cli.Count];
         Scores = new double[cli.Count];

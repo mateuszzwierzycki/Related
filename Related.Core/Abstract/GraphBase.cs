@@ -12,6 +12,7 @@ namespace Related.Abstract
 
         public abstract List<int>[] GetAdjacencyMatrix();
         public abstract List<int> GetAdjacent(int index);
+        public abstract List<int> GetAdjacent(int index, List<int>[] CachedAMatrix);
 
         public abstract int VertexCount { get; }
 

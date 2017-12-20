@@ -63,6 +63,10 @@ namespace Related.Edges {
             return true;
         }
 
+        /// <summary>
+        /// Checks if PointA == PointB.
+        /// </summary>
+        /// <returns></returns>
         public bool IsCycle() {
             if (IsValid() & PointA == PointB) { return true; }
             return false;

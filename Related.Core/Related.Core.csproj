@@ -41,13 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\DirectedGraphBase.cs" />
-    <Compile Include="Abstract\EdgeBase.cs" />
+    <Compile Include="Abstract\DGraphBase.cs" />
+    <Compile Include="Edges\EdgeBase.cs" />
     <Compile Include="Abstract\GraphBase.cs" />
-    <Compile Include="Abstract\UndirectedGraphBase.cs" />
+    <Compile Include="Abstract\UGraphBase.cs" />
     <Compile Include="Edges\Edges.cs" />
-    <Compile Include="Edges\GraphEdgeList.cs" />
-    <Compile Include="Edges\GraphVertexList.cs" />
+    <Compile Include="Collections\EdgeList.cs" />
+    <Compile Include="Collections\VertexList.cs" />
     <Compile Include="Association\Association.cs" />
     <Compile Include="Graphs\DirectedGraph.cs" />
     <Compile Include="Graphs\NestedGraph.cs" />

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Related.Abstract;
 
-namespace Related.Vertices
+namespace Related.Collections
 {
     [Serializable]
-    public class GraphVertexList<T> : IEnumerable<T>, ICollection<T> where T : struct
+    public class VertexList<T> : IEnumerable<T>, ICollection<T> where T : struct
     {
 
         private List<T> _data = new List<T>();
@@ -16,7 +16,7 @@ namespace Related.Vertices
         public List<T> Data { get => _data; set => _data = value; }
         public GraphBase Owner { get => _owner; set => _owner = value; }
 
-        internal GraphVertexList(GraphBase Owner) : base() { this.Owner = Owner; }
+        internal VertexList(GraphBase Owner) : base() { this.Owner = Owner; }
 
         public int Count => Data.Count();
 

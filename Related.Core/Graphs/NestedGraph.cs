@@ -9,21 +9,21 @@ namespace Related.Graphs {
     ///  A nested class representing directed graphs. Each node stores connectivity information on parents and children.
     /// </summary>
     [Serializable]
-    public class NestedGraph {
+    public class NodeGraph {
 
         int _id = 0;
         double _value = 0;
-        List<NestedGraph> _parent = new List<NestedGraph>();
-        List<NestedGraph> _children = new List<NestedGraph>();
+        List<NodeGraph> _parent = new List<NodeGraph>();
+        List<NodeGraph> _children = new List<NodeGraph>();
 
         public int ID { get => _id; set => _id = value; }
         public double Value { get => _value; set => _value = value; }
-        public List<NestedGraph> Parents { get => _parent; set => _parent = value; }
-        public List<NestedGraph> Children { get => _children; set => _children = value; }
+        public List<NodeGraph> Parents { get => _parent; set => _parent = value; }
+        public List<NodeGraph> Children { get => _children; set => _children = value; }
 
-        public NestedGraph() { }
+        public NodeGraph() { }
 
-        public NestedGraph(int ID = 0, double Value = 0) {
+        public NodeGraph(int ID = 0, double Value = 0) {
             this.ID = this.ID;
             this.Value = Value;
         }
@@ -40,13 +40,13 @@ namespace Related.Graphs {
         /// <returns></returns>
         public bool IsLeaf() { return (Children.Count == 0); }
 
-        public List<NestedGraph> GetLeafs() {
-            List<NestedGraph> nl = new List<NestedGraph>();
+        public List<NodeGraph> GetLeafs() {
+            List<NodeGraph> nl = new List<NodeGraph>();
             GetLeafNodes(ref nl);
             return nl;
         }
 
-        private void GetLeafNodes(ref List<NestedGraph> Nodes) {
+        private void GetLeafNodes(ref List<NodeGraph> Nodes) {
             if (this.IsLeaf()) {
                 Nodes.Add(this);
             }
@@ -57,38 +57,38 @@ namespace Related.Graphs {
             }
         }
 
-        public static void GetAllNodes(ref NestedGraph Node, ref SortedList<int, NestedGraph> SortedByID) {
+        public static void GetAllNodes(ref NodeGraph Node, ref SortedList<int, NodeGraph> SortedByID) {
             SortedByID[Node.ID] = Node;
 
             for (int i = 0; i < Node.Children.Count; i++) {
-                NestedGraph kid = Node.Children[i];
+                NodeGraph kid = Node.Children[i];
                 GetAllNodes(ref kid, ref SortedByID);
             }
         }
 
-        public void AddChild(NestedGraph Child) {
+        public void AddChild(NodeGraph Child) {
             if (Child != this) {
                 this.Children.Add(Child);
                 Child.Parents.Add(this);
             }
         }
 
-        public void AddParent(NestedGraph Parent) {
+        public void AddParent(NodeGraph Parent) {
             if (Parent != this) {
                 Parents.Add(Parent);
                 Parent.Children.Add(this);
             }
         }
 
-        public NestedGraph FindNode(int ID) {
+        public NodeGraph FindNode(int ID) {
             return FindNode(this, ID);
         }
 
-        private NestedGraph FindNode(NestedGraph who, int ID) {
+        private NodeGraph FindNode(NodeGraph who, int ID) {
             if (who.ID == ID) { return who; }
 
-            foreach (NestedGraph item in Children) {
-                NestedGraph res = FindNode(item, ID);
+            foreach (NodeGraph item in Children) {
+                NodeGraph res = FindNode(item, ID);
                 if (res != null) { return res; }
             }
 
@@ -114,9 +114,9 @@ namespace Related.Graphs {
             return str;
         }
 
-        public static void FlatTree(NestedGraph G, SortedList<int, NestedGraph> Srt) {
+        public static void FlatTree(NodeGraph G, SortedList<int, NodeGraph> Srt) {
             Srt[G.ID] = G;
-            foreach (NestedGraph n in G.Children) { FlatTree(n, Srt); }
+            foreach (NodeGraph n in G.Children) { FlatTree(n, Srt); }
         }
          
     }

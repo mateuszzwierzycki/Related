@@ -1,6 +1,6 @@
 ﻿using Related.Abstract;
 using Related.Edges;
-using Related.Vertices;
+using Related.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,30 +8,30 @@ using System.Linq;
 namespace Related.Graphs {
 
     [Serializable]
-    public class UndirectedGraph<VertexValue> : UndirectedGraphBase where VertexValue : struct {
+    public class UGraph<VertexValue> : UGraphBase where VertexValue : struct {
 
-        private GraphEdgeList<UndirectedEdge> _edges = null;
-        private GraphVertexList<VertexValue> _vertices = null;
+        private EdgeList<UEdge> _edges = null;
+        private VertexList<VertexValue> _vertices = null;
 
-        public GraphEdgeList<UndirectedEdge> Edges { get => _edges; set => _edges = value; }
-        public GraphVertexList<VertexValue> Vertices { get => _vertices; set => _vertices = value; }
+        public EdgeList<UEdge> Edges { get => _edges; set => _edges = value; }
+        public VertexList<VertexValue> Vertices { get => _vertices; set => _vertices = value; }
 
         public override int VertexCount => Vertices.Count();
         public int EdgeCount => Edges.Count();
 
-        public UndirectedGraph() : base() {
-            _edges = new GraphEdgeList<UndirectedEdge>(this);
-            _vertices = new GraphVertexList<VertexValue>(this);
+        public UGraph() : base() {
+            _edges = new EdgeList<UEdge>(this);
+            _vertices = new VertexList<VertexValue>(this);
         }
 
-        public UndirectedGraph(IEnumerable<VertexValue> Vertices) {
-            _edges = new GraphEdgeList<UndirectedEdge>(this);
-            _vertices = new GraphVertexList<VertexValue>(this);
+        public UGraph(IEnumerable<VertexValue> Vertices) {
+            _edges = new EdgeList<UEdge>(this);
+            _vertices = new VertexList<VertexValue>(this);
             if (Vertices != null) { _vertices.AddRange(Vertices); }
         }
 
-        public UndirectedGraph<VertexValue> Duplicate() {
-            UndirectedGraph<VertexValue> ng = new UndirectedGraph<VertexValue>(this.Vertices);
+        public UGraph<VertexValue> Duplicate() {
+            UGraph<VertexValue> ng = new UGraph<VertexValue>(this.Vertices);
             ng.Edges = this._edges.Duplicate(ng);
             return ng;
         }
@@ -45,7 +45,7 @@ namespace Related.Graphs {
                 cnt += 1;
             }
 
-            foreach (UndirectedEdge ed in this.Edges) {
+            foreach (UEdge ed in this.Edges) {
                 if (ed.IsValid()) {
                     adj[ed.PointA].Add(ed.PointB);
                     adj[ed.PointB].Add(ed.PointA);
@@ -58,7 +58,7 @@ namespace Related.Graphs {
         public override List<int> GetAdjacent(int index) {
             List<int> nl = new List<int>();
 
-            foreach (UndirectedEdge ed in Edges) {
+            foreach (UEdge ed in Edges) {
                 if (!ed.IsValid()) { continue; }
 
                 if (ed.IsCycle() & ed.PointA == index) { nl.Add(ed.PointA); continue; }
@@ -70,8 +70,12 @@ namespace Related.Graphs {
             return nl;
         }
 
+        public override List<int> GetAdjacent(int index, List<int>[] CachedAMatrix) {
+            return CachedAMatrix[index];
+        }
+
         public override void OnRemove(int Vertex) {
-            foreach (UndirectedEdge item in Edges) {
+            foreach (UEdge item in Edges) {
                 item.OnVertexRemove(Vertex);
             }
         }
@@ -119,47 +123,46 @@ namespace Related.Graphs {
         //    return walks;
         //}
 
-        public DirectedGraph<VertexValue> GetDirected() {
-            DirectedGraph<VertexValue> g = new DirectedGraph<VertexValue>(this.Vertices);
-            foreach (UndirectedEdge item in Edges) { g.Edges.Add(new DirectedEdge(item.PointA, item.PointB)); }
+        public DGraph<VertexValue> GetDirected() {
+            DGraph<VertexValue> g = new DGraph<VertexValue>(this.Vertices);
+            foreach (UEdge item in Edges) { g.Edges.Add(new DEdge(item.PointA, item.PointB)); }
             return g;
         }
 
     }
-
-
+    
     /// <summary>
     /// An undirected graph which can hold values in it's edges.
     /// </summary>
     /// <typeparam name="EdgeValue"></typeparam>
     [Serializable]
-    public class UndirectedGraphEdgeT<EdgeValue> : UndirectedGraphBase where EdgeValue : struct, IComparable<EdgeValue> {
+    public class UGraphEdge<EdgeValue> : UGraphBase where EdgeValue : struct, IComparable<EdgeValue> {
 
-        private GraphEdgeList<UndirectedEdge<EdgeValue>> _edges = null; // new GraphEdgeList<UndirectedEdge<T>>(this); 
-        private GraphVertexList<bool> _vertices = null;
+        private EdgeList<UEdge<EdgeValue>> _edges = null; // new GraphEdgeList<UndirectedEdge<T>>(this); 
+        private VertexList<bool> _vertices = null;
 
         public override int VertexCount => Vertices.Count();
         public int EdgeCount => Edges.Count();
 
-        public GraphEdgeList<UndirectedEdge<EdgeValue>> Edges { get => _edges; set => _edges = value; }
-        public GraphVertexList<bool> Vertices { get => _vertices; set => _vertices = value; }
+        public EdgeList<UEdge<EdgeValue>> Edges { get => _edges; set => _edges = value; }
+        public VertexList<bool> Vertices { get => _vertices; set => _vertices = value; }
 
-        public UndirectedGraphEdgeT() : base() {
-            this._edges = new GraphEdgeList<UndirectedEdge<EdgeValue>>(this);
-            this._vertices = new GraphVertexList<bool>(this);
+        public UGraphEdge() : base() {
+            this._edges = new EdgeList<UEdge<EdgeValue>>(this);
+            this._vertices = new VertexList<bool>(this);
         }
 
-        public UndirectedGraphEdgeT(IEnumerable<bool> Vertices) {
-            this._edges = new GraphEdgeList<UndirectedEdge<EdgeValue>>(this);
-            this._vertices = new GraphVertexList<bool>(this);
-
-            if (this._vertices != null) {
-                this._vertices.AddRange(Vertices);
-            }
+        public UGraphEdge(int VertexCount) {
+            this._edges = new EdgeList<UEdge<EdgeValue>>(this);
+            this._vertices = new VertexList<bool>(this);
+                
+                for (int i = 0; i < VertexCount; i++) {
+                    this.Vertices.Add(true); 
+                }
         }
 
-        public UndirectedGraphEdgeT<EdgeValue> Duplicate() {
-            UndirectedGraphEdgeT<EdgeValue> ng = new UndirectedGraphEdgeT<EdgeValue>(this.Vertices);
+        public UGraphEdge<EdgeValue> Duplicate() {
+            UGraphEdge<EdgeValue> ng = new UGraphEdge<EdgeValue>(this.Vertices.Count);
             ng.Edges = this.Edges.Duplicate(ng);
             return ng;
         }
@@ -173,7 +176,7 @@ namespace Related.Graphs {
                 cnt += 1;
             }
 
-            foreach (UndirectedEdge<EdgeValue> ed in this.Edges) {
+            foreach (UEdge<EdgeValue> ed in this.Edges) {
                 if (ed.IsValid()) {
                     adj[ed.PointA].Add(ed.PointB);
                     adj[ed.PointB].Add(ed.PointA);
@@ -186,7 +189,7 @@ namespace Related.Graphs {
         public override List<int> GetAdjacent(int index) {
             List<int> nl = new List<int>();
 
-            foreach (UndirectedEdge<EdgeValue> ed in Edges) {
+            foreach (UEdge<EdgeValue> ed in Edges) {
                 if (!ed.IsValid()) { continue; }
 
                 if (ed.IsCycle() & ed.PointA == index) { nl.Add(ed.PointA); continue; }
@@ -198,8 +201,14 @@ namespace Related.Graphs {
             return nl;
         }
 
+
+
+        public override List<int> GetAdjacent(int index, List<int>[] CachedAMatrix) {
+            return CachedAMatrix[index];
+        }
+
         public override void OnRemove(int Vertex) {
-            foreach (UndirectedEdge<EdgeValue> item in this.Edges) {
+            foreach (UEdge<EdgeValue> item in this.Edges) {
                 item.OnVertexRemove(Vertex);
             }
         }

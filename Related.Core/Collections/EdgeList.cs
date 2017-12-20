@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Related.Abstract;
+using Related.Edges;
 
-namespace Related.Edges {
+namespace Related.Collections {
     [Serializable]
-    public class GraphEdgeList<T> : ICollection<T>, IEnumerable<T> where T : EdgeBase {
+    public class EdgeList<T> : ICollection<T>, IEnumerable<T> where T : EdgeBase {
         
         private SortedList<T, T> _data = new SortedList<T, T>();
-        private Abstract.GraphBase _owner = null;
+        private GraphBase _owner = null;
         private SortedList<T, T> Data { get => _data; set => _data = value; }
         private GraphBase Owner { get => _owner; set => _owner = value; }
 
@@ -17,14 +18,14 @@ namespace Related.Edges {
 
         int ICollection<T>.Count => Data.Count();
 
-        internal GraphEdgeList(GraphBase Owner) : base() { this.Owner = Owner; }
+        internal EdgeList(GraphBase Owner) : base() { this.Owner = Owner; }
 
-        public GraphEdgeList<T> Duplicate(GraphBase NewOwner) {
+        public EdgeList<T> Duplicate(GraphBase NewOwner) {
             if (NewOwner.VertexCount != this.Owner.VertexCount) {
                 throw new ArgumentOutOfRangeException("NewOwner", "New owner has a different number of vertices than the old one.");
             }
 
-            GraphEdgeList<T> ng = new GraphEdgeList<T>(NewOwner);
+            EdgeList<T> ng = new EdgeList<T>(NewOwner);
 
             foreach (T ed in this) {
                 T dup = (T)ed.Duplicate();
@@ -38,7 +39,7 @@ namespace Related.Edges {
             get { return Data[Key]; }
             set { Data[Key] = value; }
         }
-
+         
         public void Add(T item) {
             if (item.PointA > Owner.VertexCount - 1) { throw new IndexOutOfRangeException(); }
             if (item.PointB > Owner.VertexCount - 1) { throw new IndexOutOfRangeException(); }
