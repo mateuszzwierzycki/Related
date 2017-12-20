@@ -39,11 +39,11 @@ namespace Related.Graphs {
             }
         }
 
-        public DGraphEdge<EdgeValue> Duplicate() {
-            DGraphEdge<EdgeValue> ng = new DGraphEdge<EdgeValue>(this.Vertices.Count);
-            ng.Edges = this.Edges.Duplicate(ng);
-            return ng;
-        }
+        //public DGraphEdge<EdgeValue> Duplicate() {
+        //    DGraphEdge<EdgeValue> ng = new DGraphEdge<EdgeValue>(this.Vertices.Count);
+        //    ng.Edges = this.Edges.Duplicate(ng);
+        //    return ng;
+        //}
 
         public override List<int>[] GetAdjacencyMatrix() {
             List<int>[] adj = new List<int>[this.VertexCount];
@@ -118,11 +118,11 @@ namespace Related.Graphs {
             if (Vertices != null) { this.Vertices.AddRange(Vertices); }
         }
 
-        public DGraph<VertexValue> Duplicate() {
-            DGraph<VertexValue> ng = new DGraph<VertexValue>(this.Vertices);
-            ng.Edges = this._edges.Duplicate(ng);
-            return ng;
-        }
+        //public DGraph<VertexValue> Duplicate() {
+        //    DGraph<VertexValue> ng = new DGraph<VertexValue>(this.Vertices);
+        //    ng.Edges = this._edges.Duplicate(ng);
+        //    return ng;
+        //}
 
         public UGraph<VertexValue> GetUndirected()
         {

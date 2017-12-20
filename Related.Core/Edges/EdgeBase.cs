@@ -25,10 +25,10 @@ namespace Related.Edges {
             PointB = Other.PointB;
         }
 
-        /// <summary>
-        /// Function returning a deep copy.
-        /// </summary>
-        public abstract EdgeBase Duplicate();
+        ///// <summary>
+        ///// Function returning a deep copy.
+        ///// </summary>
+        //public abstract EdgeBase Duplicate();
 
         #endregion 
 

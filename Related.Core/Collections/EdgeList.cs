@@ -20,20 +20,20 @@ namespace Related.Collections {
 
         internal EdgeList(GraphBase Owner) : base() { this.Owner = Owner; }
 
-        public EdgeList<T> Duplicate(GraphBase NewOwner) {
-            if (NewOwner.VertexCount != this.Owner.VertexCount) {
-                throw new ArgumentOutOfRangeException("NewOwner", "New owner has a different number of vertices than the old one.");
-            }
+        //public EdgeList<T> Duplicate(GraphBase NewOwner) {
+        //    if (NewOwner.VertexCount != this.Owner.VertexCount) {
+        //        throw new ArgumentOutOfRangeException("NewOwner", "New owner has a different number of vertices than the old one.");
+        //    }
 
-            EdgeList<T> ng = new EdgeList<T>(NewOwner);
+        //    EdgeList<T> ng = new EdgeList<T>(NewOwner);
 
-            foreach (T ed in this) {
-                T dup = (T)ed.Duplicate();
-                ng.Add(dup);
-            }
+        //    foreach (T ed in this) {
+        //        T dup = (T)ed.Duplicate();
+        //        ng.Add(dup);
+        //    }
 
-            return ng;
-        }
+        //    return ng;
+        //}
 
         public T this[T Key] {
             get { return Data[Key]; }

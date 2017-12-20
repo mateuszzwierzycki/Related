@@ -26,7 +26,7 @@ namespace Related.Edges {
 
         public static UEdge Create(int A, int B) { return new UEdge(A, B); }
 
-        public override EdgeBase Duplicate() { return new UEdge(this); }
+        //public override EdgeBase Duplicate() { return new UEdge(this); }
 
         public void Orient() {
             if (this.PointA > this.PointB) { this.Flip(); }
@@ -64,7 +64,7 @@ namespace Related.Edges {
             return 0;
         }
 
-        public override EdgeBase Duplicate() { return new UEdge<T>(this.PointA, this.PointB, this.Value); }
+        //public override EdgeBase Duplicate() { return new UEdge<T>(this.PointA, this.PointB, this.Value); }
 
         public void Orient() {
             if (this.PointA > this.PointB) { this.Flip(); }
@@ -99,7 +99,7 @@ namespace Related.Edges {
             return 0;
         }
 
-        public override EdgeBase Duplicate() { return new DEdge(this); }
+        //public override EdgeBase Duplicate() { return new DEdge(this); }
 
         public void Orient() {
             if (this.PointA > this.PointB) { this.Flip(); }
@@ -140,7 +140,7 @@ namespace Related.Edges {
             return 0;
         }
 
-        public override EdgeBase Duplicate() { return new DEdge<T>(this.PointA, this.PointB, this.Value); }
+        //public override EdgeBase Duplicate() { return new DEdge<T>(this.PointA, this.PointB, this.Value); }
 
         public void Orient() {
             if (this.PointA > this.PointB) { this.Flip(); }
