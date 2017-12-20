@@ -103,7 +103,7 @@ public class AssociationGraph : UGraphBase {
 /// Implemenation of "Heuristics for Chemical Compound Matching", Hattori et al., 2003.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class GraphComparison<T> where T : struct {
+public class GraphComparison<T>  {
 
     private GraphBase GA = null;
     private GraphBase GB = null;

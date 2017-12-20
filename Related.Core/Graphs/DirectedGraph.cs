@@ -14,7 +14,7 @@ namespace Related.Graphs {
     /// </summary>
     /// <typeparam name="EdgeValue"></typeparam>
     [Serializable]
-    public class DGraphEdge<EdgeValue> : DGraphBase where EdgeValue : struct {
+    public class DGraphEdge<EdgeValue> : DGraphBase  {
 
         private EdgeList<DEdge<EdgeValue>> _edges = null;
         private VertexList<bool> _vertices = null;
@@ -81,8 +81,7 @@ namespace Related.Graphs {
 
             return nl;
         }
-
-
+        
         public override List<int> GetAdjacent(int index, List<int>[] CachedAMatrix) {
             return CachedAMatrix[index];
         }
@@ -100,7 +99,7 @@ namespace Related.Graphs {
     /// </summary>
     /// <typeparam name="VertexValue"></typeparam>
     [Serializable]
-    public class DGraph<VertexValue> : DGraphBase where VertexValue : struct {
+    public class DGraph<VertexValue> : DGraphBase {
 
         private EdgeList<DEdge> _edges = null;
         private VertexList<VertexValue> _vertices = null;

@@ -7,8 +7,7 @@ using Related.Abstract;
 namespace Related.Collections
 {
     [Serializable]
-    public class VertexList<T> : IEnumerable<T>, ICollection<T> where T : struct
-    {
+    public class VertexList<T> : IEnumerable<T>, ICollection<T>     {
 
         private List<T> _data = new List<T>();
         private Abstract.GraphBase _owner = null;

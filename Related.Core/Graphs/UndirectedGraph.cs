@@ -8,7 +8,7 @@ using System.Linq;
 namespace Related.Graphs {
 
     [Serializable]
-    public class UGraph<VertexValue> : UGraphBase where VertexValue : struct {
+    public class UGraph<VertexValue> : UGraphBase  {
 
         private EdgeList<UEdge> _edges = null;
         private VertexList<VertexValue> _vertices = null;
@@ -136,7 +136,7 @@ namespace Related.Graphs {
     /// </summary>
     /// <typeparam name="EdgeValue"></typeparam>
     [Serializable]
-    public class UGraphEdge<EdgeValue> : UGraphBase where EdgeValue : struct, IComparable<EdgeValue> {
+    public class UGraphEdge<EdgeValue> : UGraphBase {
 
         private EdgeList<UEdge<EdgeValue>> _edges = null; // new GraphEdgeList<UndirectedEdge<T>>(this); 
         private VertexList<bool> _vertices = null;
