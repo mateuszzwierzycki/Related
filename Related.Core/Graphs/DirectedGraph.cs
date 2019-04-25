@@ -63,7 +63,6 @@ namespace Related.Graphs {
             return adj;
         }
 
-
         /// <summary>
         /// Gets all the connected vertices.
         /// </summary>
